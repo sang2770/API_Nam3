@@ -28,9 +28,10 @@ insert into TB_PHIM(Anh,MOTAPHIM,THOILUONG,TENPHIM,NGONNGU,NAM,DANHGIAPHIM,DUONG
 insert into TB_PHIM(Anh,MOTAPHIM,THOILUONG,TENPHIM,NGONNGU,NAM,DANHGIAPHIM,DUONGDAN) values(N'https://th.bing.com/th/id/R.906f88289bff82cfc2b533dc77e061d6?rik=GFtZAAF2UdJ4MQ&pid=ImgRaw&r=0',N'Nishimiya Shoko là một cô bé khiếm thính bẩm sinh. Khi học tiểu học, Shoko bị cậu bé Ishida Shoya bắt nạt. Sau đó, cô bé đột ngột chuyển trường. Từ đó, Shoya bị mang danh là “kẻ xấu tính chuyên bắt nạt”, bị bạn bè xa lánh. Nhiều năm sau, cả hai trở thành những học sinh trung học. Shoya gặp lại Shoko lần nữa. Cậu bé quyết định cố gắng để bù đắp những tổn thương ngày xưa của cô bạn gái. Thế nhưng, mọi thứ liệu có diễn ra như ý nguyện của cậu?',N'120',N'A Silent Voice',N'English',2019,7.00,N'')
 insert into TB_PHIM(Anh,MOTAPHIM,THOILUONG,TENPHIM,NGONNGU,NAM,DANHGIAPHIM,DUONGDAN) values(N'https://is3-ssl.mzstatic.com/image/thumb/Video113/v4/ad/3d/76/ad3d7610-68ce-a500-bfac-9d602e896f88/PrincessMononoke_iTunes_16x9_3840x2160.png/1600x900.jpg',N'Bị trúng lời nguyền chết chóc, vị hoàng tử lên đường tìm cách hóa giải, để rồi rơi vào cuộc chiến giữa một thị trấn khai thác mỏ và các loài động vật trong rừng.',N'120',N'Princess Mononoke',N'English',2019,7.00,N'')
 insert into TB_PHIM(Anh,MOTAPHIM,THOILUONG,TENPHIM,NGONNGU,NAM,DANHGIAPHIM,DUONGDAN) values(N'https://img2.thuthuatphanmem.vn/uploads/2018/12/30/hinh-nen-anime-your-name_110749826.jpg',N'Mitsuha là cô nữ sinh sống tại vùng quê yên bình trong một thị trấn nhỏ được bao bọc xung quanh bởi núi rừng, cô có một cô em gái và gia đình cô kế thừa nghi lễ truyền thống của đền Shinto. Sau khi mẹ cô mất thì cha của cô không chịu nối nghiệp gia đình mà quyết định theo con đường chính trị. Cuộc sống thôn quê êm đềm khiến Mitsuha cảm thấy buồn tẻ và chán nản khi ở đây chẳng có bóng đèn sáng nguyên đêm, hiệu sách hay quán cà phê cũng không có, tàu chỉ đến mỗi 2 tiếng còn các cửa hàng thì 9 giờ đã đóng cửa. Cô từng mơ ước kiếp sau có thể trở thành chàng trai Tokyo thành thị.',N'120',N'Your name',N'English',2019,7.00,N'')
+
 go
 
-delete from TB_PHIM where MAPHIM>0
+
 --tạo db cho bảng trung gian phim
 insert into TB_Phim_LoaiPhim values(N'1',N'1')
 insert into TB_Phim_LoaiPhim values(N'2',N'2')
