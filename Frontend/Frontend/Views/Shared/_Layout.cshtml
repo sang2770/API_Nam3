@@ -252,25 +252,7 @@
             localStorage.clear();
             window.location = "/Home/Login";
         })
-        const url = "https://localhost:7053/api";
-        $.ajax({
-            url: url +"Category",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            method: "GET",
-            success: function (data) {
-                let result = "";
-                data.forEach((item, index) => {
-                    result += `<li class="menu-item active">
-                                 <a href="#" aria-current="page" onclick="GetMovieByCategory">All</a>
-                              </li> `;
-                })
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        })
+        
     </script>
     @RenderSection("scripts", required: false)
 </body>

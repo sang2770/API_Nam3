@@ -56,6 +56,7 @@ namespace Frontend
             bundles.Add(new StyleBundle("~/Content/Scss").Include(
                       "~/Content/bootstrap.min.css",
                       "~/Content/style.css",
+                      "~/Content/styleClient.css",
                       "~/Content/responsive.css",
                       "~/Content/fontawesome.min.css"));
 
