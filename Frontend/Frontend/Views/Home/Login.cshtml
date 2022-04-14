@@ -1,0 +1,83 @@
+﻿@{
+    Layout = "~/Views/Shared/_Auth.cshtml";
+}
+<!-- Log-in  -->
+<section class="position-relative pb-0" style="padding:50px">
+    <div class="gen-login-page-background" style="background-image: url(@Url.Content("~/Images/background/asset-54.jpg"));"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="text-center">
+                    <form name="pms_login" id="pms_login" action="#" method="post">
+                        <h4>Đăng nhập</h4>
+                        <p class="login-username" style="display:flex; flex-direction:column">
+                            <label for="user_login">Tên đăng nhập:</label>
+                            <input type="text" name="TenDangNhap" id="user_login" style="max-width:100%" class="input" value="" size="20">
+                        </p>
+                        <p class="login-password" style="display:flex; flex-direction:column">
+                            <label for="user_pass">Mật khẩu:</label>
+                            <input style="max-width:100%" type="password" name="MatKhau" id="user_pass" class="input" value="" size="20">
+                        </p>
+                        <input type="checkbox" id="ShowPass" />
+                        <label>Hiện mật khẩu</label>
+                        <p class="text-danger" id="HelpText">  </p>
+
+                        <p class="login-submit">
+                            <input type="submit" name="wp-submit" id="wp-submit" class="button button-primary"
+                                   value="Log In">
+                        </p>
+                        <a href="@Url.Action("Register", "Home")">Register</a>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{
+        <script>
+            $("#ShowPass").change(function (e) {
+                if ($(this).is(':checked')) {
+                    $("#user_pass").attr('type', "text");
+
+                } else {
+                    $("#user_pass").attr('type', "password");
+                }
+            })
+            const url = "https://localhost:7053/api/Authenticate/Login";
+            $("#pms_login").submit(function (e) {
+                e.preventDefault();
+                console.log(e);
+                $("#Helps").html("");
+                var form = new FormData(e.target);
+                var object = {};
+                form.forEach((value, key) => {
+                    object[key] = value;
+                });
+                $("#HelpText").html("");
+                $.ajax({
+                    url: url,
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    method: "POST",
+
+                    data: JSON.stringify(object),
+                    success: function (data) {
+                        localStorage.setItem("token", data.token);
+                        localStorage.setItem("time", data.expiration);
+                        localStorage.setItem("Name", data.user.tendangnhap);
+                        localStorage.setItem("MaTK", data.user.mataikhoan);
+                        $("#HelpText").html("");
+                        //e.target.reset();
+                        window.location = "/Home";
+                    },
+                    error: function (err) {
+                        $("#HelpText").html("Tài khoản hoặc mật khẩu không đúng");
+                    }
+                })
+                return true;
+            })
+        </script>
+}
+<!-- Log-in  -->

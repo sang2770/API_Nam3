@@ -1,0 +1,21 @@
+-Sang
+1- User Login
++ Đăng kí
++ Đăng nhập
++ Chỉnh sửa thông tin tài khoản
++ Phân quyền
++ Cho phép người dùng bình luận phim
+-Hùng
+2- Phim
++ Thêm phim mới
++ Lấy danh sách phim + lọc( theo thể loại, theo quốc gia)
++ Tìm kiếm phim theo tên
++ Xóa phim
++ Lấy thông tin chi tiết của phim theo id
+-Sơn
+3- Thể loại
++ Thêm, sửa, xóa thể loại
++ Lấy danh sách thể loại
+4- Quốc gia
++ Thêm, sửa, xóa quốc gia
++ Lấy danh sách quốc gia

@@ -1,0 +1,96 @@
+﻿@{
+    Layout = "~/Views/Shared/_Auth.cshtml";
+}
+<!-- Log-in  -->
+<section class="position-relative pb-0" style="padding:10px;">
+    <div class="gen-login-page-background" style="background-image: url(@Url.Content("~/Images/background/asset-54.jpg"));"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="text-center">
+                    <form name="pms_login" id="pms_login">
+                        <h4>Đăng ký</h4>
+                        <p class="login-username" style="display:flex; flex-direction:column">
+                            <label for="user_login">Tên đăng nhập:</label>
+                            <input type="text" name="TenDangNhap" id="user_login" style="max-width:100%" class="input" value="" size="20">
+                        </p>
+                        <p class="login-password" style="display:flex; flex-direction:column">
+                            <label for="user_pass">Mật khẩu:</label>
+                            <input style="max-width:100%" type="password" name="MatKhau" id="user_pass" class="input" value="" size="20">
+                        </p>
+                        <p class="login-password" style="display:flex; flex-direction:column">
+                            <label for="user_pass">Nhập lại mật khẩu:</label>
+                            <input style="max-width:100%" type="password" name="passwordRepeat" id="passRepeat" class="input" value="" size="20">
+                        </p>
+                        <p class="text-danger" id="HelpText">  </p>
+                        <p class="login-submit">
+                            <input type="submit"  id="wp-submit" class="button button-primary"
+                                   value="Đăng ký">
+                        </p>
+                        <input type="checkbox"  id="ShowPass"/>
+                        <label>Hiện mật khẩu</label>
+                        <p>Bạn đã có tài khoản?    <a href='@Url.Action("Login", "Home")'>Đăng nhập</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script>
+        const url = "https://localhost:7053/api/Authenticate/Register";
+        $("#ShowPass").change(function (e) {
+            if ($(this).is(':checked')) {
+                $("#passRepeat").attr('type', "text");
+                $("#user_pass").attr('type', "text");
+
+            } else {
+                $("#passRepeat").attr('type', "password");
+                $("#user_pass").attr('type', "password");
+            }
+        })
+        $("#pms_login").submit(function (e) {
+            e.preventDefault();
+            console.log(e);
+            $("#Helps").html("");
+            var form = new FormData(e.target);
+            if (form.get("MatKhau") !== form.get("passwordRepeat"))
+            {
+                $("#HelpText").html("Mật khẩu không khớp");
+                return;
+            }
+            var object = {};
+            form.forEach((value, key) => {
+                if (key !== "passwordRepeat") {
+                    object[key] = value;
+                }
+            });
+            $("#HelpText").html("");
+            $.ajax({
+                url: url,
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                },
+                method: "POST",
+
+                data: JSON.stringify(object),
+                success: function (data) {
+
+                    alert("Bạn đã tạo tài khoản thành công");
+                    $("#HelpText").html("");
+                    e.target.reset();
+                    console.log(data);
+                },
+                error: function (err) {
+                    $("#HelpText").html("Bạn cần nhập dữ liệu hợp lệ");
+                    console.log(err);
+                    alert("Thất bại");
+                }
+            })
+            return true;
+        })
+    </script>
+}
+<!-- Log-in  -->

@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Free-Login</title>
+    @Styles.Render("~/Content/Scss")
+    <script src="https://use.fontawesome.com/6a4f1112b6.js"></script>
+
+</head>
+<body>
+    <!--=========== Loader =============-->
+    <div id="gen-loading">
+        <div id="gen-loading-center">
+            <img src="~/Images/background/logo-1.png" alt="loading" />
+        </div>
+    </div>
+    <!--=========== Loader =============-->
+    @RenderBody()
+
+
+    <!-- Back-to-Top end -->
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/Options")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
