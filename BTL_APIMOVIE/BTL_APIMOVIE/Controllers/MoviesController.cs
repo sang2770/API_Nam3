@@ -29,7 +29,12 @@ namespace BTL_APIMOVIE.Controllers
         {
             return await _context.TbPhims.ToListAsync();
         }
-
+        // Lấy danh sach phim danh gia cao
+        [HttpGet("GetMovieByRate")]
+        public async Task<ActionResult<IEnumerable<TbPhim>>> GetMoviebyRate()
+        {
+            return await _context.TbPhims.Where(n => n.Danhgiaphim >= 5).ToListAsync();
+        }
         // GET: api/Movies/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TbPhim>> GetTbPhim(int id)
@@ -120,6 +125,34 @@ namespace BTL_APIMOVIE.Controllers
             return NoContent();
         }
 
+        [HttpPut("Rate/{id}")]
+        public async Task<IActionResult> PutRateMovie(int id, TbPhim tbPhim)
+        {
+            if (id != tbPhim.Maphim)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(tbPhim).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TbPhimExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
