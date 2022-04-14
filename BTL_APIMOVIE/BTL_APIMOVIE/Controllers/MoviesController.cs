@@ -43,7 +43,7 @@ namespace BTL_APIMOVIE.Controllers
 
             return tbPhim;
         }
-        [HttpGet("TenPhim/{name}")]
+        [HttpGet("NameMove/{name}")]
         public async Task<ActionResult<TbPhim>> GetTbPhimByName(string name)
         {
             var tbPhim = await _context.TbPhims.Where(n=>n.Tenphim==name).FirstOrDefaultAsync();
@@ -56,7 +56,7 @@ namespace BTL_APIMOVIE.Controllers
             return tbPhim;
         }
         //tìm theo the loai
-        [HttpGet("PhimBycategory/{category}")]
+        [HttpGet("MoveByCategory/{category}")]
         public async Task<ActionResult<IEnumerable<TbPhim>>> GetTbPhimsByCategory(string category)
         {
             List<TbPhim> tbPhims = new List<TbPhim>();
@@ -72,7 +72,7 @@ namespace BTL_APIMOVIE.Controllers
             return  tbPhims;
         }
         //tìm theo country
-        [HttpGet("PhimBycountry/{country}")]
+        [HttpGet("MovieByCountry/{country}")]
         public async Task<ActionResult<IEnumerable<TbPhim>>> GetTbPhimsByCountry(string country)
         {
             List<TbPhim> tbPhims = new List<TbPhim>();
@@ -139,6 +139,17 @@ namespace BTL_APIMOVIE.Controllers
             if (tbPhim == null)
             {
                 return NotFound();
+            }
+            List<TbPhimLoaiPhim> tbPhimLoaiPhims=_context.TbPhimLoaiPhims.Where(n=>n.Maphim==id).ToList();
+            foreach(TbPhimLoaiPhim item in tbPhimLoaiPhims)
+            {
+                _context.TbPhimLoaiPhims.Remove(item);
+            }
+
+            List<TbPhimQuocgia> tbPhimQuocgias = _context.TbPhimQuocgia.Where(n => n.Maphim == id).ToList();
+            foreach (TbPhimQuocgia item in tbPhimQuocgias)
+            {
+                _context.TbPhimQuocgia.Remove(item);
             }
 
             _context.TbPhims.Remove(tbPhim);
