@@ -31,8 +31,11 @@ create table TB_PHIM
 	NGONNGU NVARCHAR(100) NOT NULL,
 	DUONGDAN NVARCHAR(100) NOT NULL,
 	NAM INT NOT NULL,
-	DANHGIAPHIM NVARCHAR(100) NULL,
+	DANHGIAPHIM float NULL,
 );
+alter table TB_PHIM
+alter column DANHGIAPHIM int NULL
+go
 -- Tao bang binh luan
 create table TB_BINHLUAN
 (

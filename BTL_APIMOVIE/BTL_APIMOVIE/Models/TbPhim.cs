@@ -20,7 +20,7 @@ namespace BTL_APIMOVIE.Models
         public string? Ngonngu { get; set; } = null!;
         public string? Duongdan { get; set; } = null!;
         public int Nam { get; set; }
-        public string? Danhgiaphim { get; set; }
+        public int Danhgiaphim { get; set; }
 
         public virtual ICollection<TbBinhluan> TbBinhluans { get; set; }
         public virtual ICollection<TbPhimLoaiPhim> TbPhimLoaiPhims { get; set; }
