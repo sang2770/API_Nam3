@@ -20,7 +20,6 @@ namespace BTL_APIMOVIE.Controllers
         {
             _context = new APIMOVIESContext();
         }
-
         // GET: api/Category
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TbLoaiphim>>> GetTbLoaiphims()

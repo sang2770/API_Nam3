@@ -24,5 +24,11 @@ namespace Frontend.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public ActionResult MovieByName(string search)
+        {
+            ViewBag.Name= search;
+            return View();
+        }
     }
 }

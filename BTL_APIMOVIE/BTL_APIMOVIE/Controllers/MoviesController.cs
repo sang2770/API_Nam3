@@ -48,10 +48,10 @@ namespace BTL_APIMOVIE.Controllers
 
             return tbPhim;
         }
-        [HttpGet("NameMove/{name}")]
-        public async Task<ActionResult<TbPhim>> GetTbPhimByName(string name)
+        [HttpGet("NameMovie/{name}")]
+        public async Task<ActionResult<IEnumerable<TbPhim>>> GetTbPhimByName(string name)
         {
-            var tbPhim = await _context.TbPhims.Where(n=>n.Tenphim==name).FirstOrDefaultAsync();
+            var tbPhim = await _context.TbPhims.Where(n=>n.Tenphim.Contains(name)).ToListAsync();
 
             if (tbPhim == null)
             {
