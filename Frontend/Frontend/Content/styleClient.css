@@ -5,4 +5,17 @@
     -webkit-line-clamp: 3 !important;
     -webkit-box-orient: vertical !important;
 }
+.Motaphim{
+     text-overflow:ellipsis !important
 
+}
+#ListMovieByCategory{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center
+
+}
+.item{
+    width:25%;
+    padding:10px
+}

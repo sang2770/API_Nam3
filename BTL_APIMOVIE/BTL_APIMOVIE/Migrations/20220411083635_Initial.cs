@@ -89,7 +89,7 @@ namespace BTL_APIMOVIE.Migrations
                     NGONNGU = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     DUONGDAN = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     NAM = table.Column<int>(type: "int", nullable: false),
-                    DANHGIAPHIM = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                    DANHGIAPHIM = table.Column<string>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
