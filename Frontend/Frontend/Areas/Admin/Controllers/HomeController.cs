@@ -13,6 +13,10 @@ namespace Frontend.Areas.Admin.Controllers
         {
             return View();
         }
+        public ActionResult DetailsUser()
+        {
+            return View();
+        }
 
     }
 }
