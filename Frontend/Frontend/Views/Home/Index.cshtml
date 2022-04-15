@@ -37,7 +37,7 @@
             <div class="col-xl-2 col-lg-6 col-md-6 d-none d-md-inline-block">
                 <div class="gen-movie-action">
                     <div class="gen-btn-container text-right">
-                        <select class="form-group" id="ListCategory">
+                        <select class="form-group" id="ListCategory" >
                             
                         </select>
                     </div>
@@ -47,13 +47,15 @@
         <div class="row mt-3">
             <div class="col-12">
                 <div class="gen-style-2">
-                    <div id="ListMovieByCategory"
-                         >
-                        
+                    <div id="ListMovieByCategory">
+
 
                     </div>
+                    <div class="Btn" >
+                        Load more
+                        </div>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 </section>
@@ -62,6 +64,8 @@
 @section scripts{
     <script>
         const url = "https://localhost:7053/api";
+        let number = 4;
+        let listMovieBycategory = [];
         $.ajax({
             url: url +"/Movies/GetMovieByRate",
             headers: {
@@ -140,7 +144,7 @@
                                             </div>
                                             <div class="gen-movie-action">
                                                 <div class="gen-btn-container">
-                                                    <a href="single-movie.html"
+                                                    <a href="/Home/Details/${item.maphim}"
                                                        class="gen-button .gen-button-dark">
                                                         <i class="fa fa-play" aria-hidden="true"></i>
                                                         <span class="text">Play Now</span>
@@ -180,6 +184,7 @@
             window.location = "/Home/Details/" + id;
         }
         function getMovie(id) {
+            number = 4;
             let Url = url;
             if (id == "") {
                 Url += "/Movies"
@@ -194,9 +199,25 @@
                 },
                 method: "GET",
                 success: function (data) {
-                    let result = "";
                     data.forEach((item, index) => {
-                        result += `<div class="item">
+                        listMovieBycategory.push(item);
+                    })
+                    renderMovie(); 
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+        getMovie("");
+        function renderMovie() {
+            let result = "";
+            if (number > listMovieBycategory.length) {
+                number = listMovieBycategory.length;
+            }
+            for (let i = 0; i < number; i++) {
+                let item = listMovieBycategory[i];
+                result += `<div class="item">
                             <div class="movie type-movie status-publish has-post-thumbnail hentry movie_genre-action movie_genre-adventure movie_genre-drama">
                                 <div class="gen-carousel-movies-style-2 movie-grid style-2">
                                     <div class="gen-movie-contain">
@@ -211,7 +232,7 @@
                                             </div>
                                         </div>
                                         <div class="gen-info-contain">
-                                            <div class="gen-movie-info">
+                                            <div class="gen-movie-info" style="cursor:pointer">
                                                 <h3>
                                                     <span onclick="GetDetails('${item.maphim}')">${item.tenphim}</span>
                                                 </h3>
@@ -236,16 +257,9 @@
                                     ${item.motaphim}
                                 </div>
                         </div>`
-                    })
-                    $("#ListMovieByCategory").html(result);
-                    
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            })
+            }
+            $("#ListMovieByCategory").html(result);
         }
-        getMovie("");
         $("#ListCategory").change(function () {
             getMovie($(this).val());
             if ($(this).val() !== "") {
@@ -256,6 +270,12 @@
             }
 
         });
+
+        $(".Btn").click(function () {
+            number += 4;
+            
+            renderMovie();
+        })
         
     </script>
     }

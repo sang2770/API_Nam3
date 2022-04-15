@@ -8,15 +8,38 @@
             <div class="col-lg-12">
                 <div class="gen-single-movie-wrapper style-1">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="gen-video-holder">
-                                <iframe width="100%" height="550px" src="https://www.youtube.com/embed/LXb3EKWsInQ"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen></iframe>
-                            </div>
-                            <div class="gen-single-movie-info">
-                                <h2 class="gen-title">My Generation</h2>
+                        <div class="col-lg-12" id="DetailsMovies">
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section scripts{
+    <script>
+    
+        const url = "https://localhost:7053/api";
+        let id = location.href.split("/");
+        id = id[id.length - 1];
+        if (isInterger(id)) {
+            $.ajax({
+                url: url + "/Movies/" +id,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                method: "GET",
+                success: function (data) {
+                    let idvideo = data.duongdan.split("=");
+                    idvideo = idvideo[idvideo.length-1]
+                    let result = `<div class="gen-video-holder">
+                                <iframe width="100%" height="550px" src="https://www.youtube.com/embed/${idvideo}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard - write; encrypted - media; gyroscope; picture -in -picture" allowfullscreen></iframe>
+                                 
+                                   </div>
+                                <div class="gen-single-movie-info">
+                                <h2 class="gen-title">${data.tenphim}</h2>
                                 <div class="gen-single-meta-holder">
                                     <ul>
                                         <li class="gen-sen-rating">TV-PG</li>
@@ -28,27 +51,22 @@
                                     </ul>
                                 </div>
                                 <p>
-                                    Streamlab is a long established fact that a reader will be distracted by the
-                                    readable
-                                    content of a page when Streamlab at its layout. The point of using Lorem
-                                    Streamlab
-                                    is that it has a more-or-less normal distribution of Streamlab as opposed
-                                    Streamlab.
+                                   ${data.motaphim}
                                 </p>
                                 <div class="gen-after-excerpt">
                                     <div class="gen-extra-data">
                                         <ul>
                                             <li>
                                                 <span>Language :</span>
-                                                <span>English</span>
+                                                <span>${data.ngonngu}</span>
                                             </li>
                                             <li>
                                                 <span>Subtitles :</span>
-                                                <span>English</span>
+                                                <span>${data.ngonngu}</span>
                                             </li>
                                             <li>
                                                 <span>Audio Languages :</span>
-                                                <span>English</span>
+                                                <span>${data.ngonngu}</span>
                                             </li>
                                             <li>
                                                 <span>Genre :</span>
@@ -65,54 +83,19 @@
                                             </li>
                                             <li>
                                                 <span>Run Time :</span>
-                                                <span>1hr 24 mins</span>
+                                                <span>${data.thoiluong} mins</span>
                                             </li>
                                             <li>
                                                 <span>Release Date :</span>
-                                                <span>14 Aug,2018</span>
+                                                <span>${data.nam}</span>
                                             </li>
-                                        </ul>
-                                    </div>
-                                    <div class="gen-socail-share">
-                                        <h4 class="align-self-center">Social Share :</h4>
-                                        <ul class="social-inner">
-                                            <li>
-                                                <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="facebook"><i class="fab fa-instagram"></i></a>
-                                            </li>
-                                            <li><a href="#" class="facebook"><i class="fab fa-twitter"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-@section scripts{
-    <script>
-    
-        const url = "https://localhost:7053/api";
-        let id = location.href.split("/");
-        id = id[id.length - 1];
-        if (isInterger(id)) {
-            $.ajax({
-                url: url + "/Movies/" +,
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                method: "GET",
-                success: function (data) {
-                    let result = "";
-                    data.forEach((item, index) => {
-                        result += ""
-                    })
-                    $("#ListMovieByCategory").html(result);
+                        `;
+                   
+                    $("#DetailsMovies").html(result);
 
                 },
                 error: function (err) {

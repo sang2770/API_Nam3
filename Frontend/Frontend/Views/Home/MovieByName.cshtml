@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "MovieByName";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="gen-section-padding-2 mt-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-10 col-lg-6 col-md-6">
+                <h4 class="gen-heading-title" id="NameCategory">Kết quả tìm kiếm</h4>
+            </div>
+
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="gen-style-2">
+                    <div id="ListMovieByName">
+                    </div>
+                    <button class="Btn">
+                        Load more
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        const url = "https://localhost:7053/api";
+        let number = 4;
+        let listMovieByName = [];
+        function GetDetails(id) {
+            window.location = "/Home/Details/" + id;
+        }
+        function getMovie() {
+            number = 4;
+            $.ajax({
+                url: url + `/Movies/NameMovie/@ViewBag.name`,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                method: "GET",
+                success: function (data) {
+
+                    data.forEach((item, index) => {
+                        listMovieByName.push(item);
+                    })
+                    renderMovie();
+                },
+                error: function (err) {
+                    $("#ListMovieByName").html(`<div>Không tìm thấy kết quả</div>`);
+                    $('.Btn').hide();
+                }
+            })
+        }
+        getMovie();
+        function renderMovie() {
+            let result = "";
+            if (number > listMovieByName.length) {
+                number = listMovieByName.length;
+                $('.Btn').prop('disabled', true);
+                $('.Btn').css("cursor", "not-allowed")
+            }
+            for (let i = 0; i < number; i++) {
+                let item = listMovieByName[i];
+                result += `<div class="item">
+                            <div class="movie type-movie status-publish has-post-thumbnail hentry movie_genre-action movie_genre-adventure movie_genre-drama">
+                                <div class="gen-carousel-movies-style-2 movie-grid style-2">
+                                    <div class="gen-movie-contain">
+                                        <div class="gen-movie-img" style="height:200px" >
+                                            <img src="${item.anh}"
+                                                 alt="owl-carousel-video-image" style="height:100%; object-fit:cover" />
+
+                                            <div class="gen-movie-action">
+                                                <span class="gen-button" onclick="GetDetails('${item.maphim}')">
+                                                    <i class="fa fa-play"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="gen-info-contain">
+                                            <div class="gen-movie-info" style="cursor:pointer">
+                                                <h3>
+                                                    <span onclick="GetDetails('${item.maphim}')">${item.tenphim}</span>
+                                                </h3>
+                                            </div>
+                                            <div class="gen-movie-meta-holder">
+                                                <ul>
+                                                    <li>${item.thoiluong} min </li>
+                                                    <li>
+                                                        ${item.danhgiaphim}/10
+                                                    </li>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                </ul>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="Text-over" >
+                                    ${item.motaphim}
+                                </div>
+                        </div>`
+            }
+            $("#ListMovieByName").html(result);
+        }
+        $(".Btn").click(function () {
+            number += 4;
+            renderMovie();
+        })
+
+    </script>
+}
