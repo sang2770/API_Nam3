@@ -5,7 +5,7 @@ go
 Insert into dbo.TB_NGUOIDUNG (TENDANGNHAP, LOAITAIKHOAN, MATKHAU) values('Admin', 'Admin', 'Admin')
 go
 -- db loaiphim
-insert into TB_LOAIPHIM(TENLOAIPHIM) values(N'Phim Hoạt Hình')
+insert into TB_LOAIPHIM(TENLOAIPHIM) values(N'Cartoon')
 insert into TB_LOAIPHIM(TENLOAIPHIM) values(N'Action')
 insert into TB_LOAIPHIM(TENLOAIPHIM) values(N'Drama')
 insert into TB_LOAIPHIM(TENLOAIPHIM) values(N'Adventure')
