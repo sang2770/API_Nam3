@@ -9,8 +9,40 @@
                 <div class="gen-single-movie-wrapper style-1">
                     <div class="row">
                         <div class="col-lg-12" id="DetailsMovies">
-                            
-                            
+
+
+                        </div>
+                        <div class="col-lg-12" style="min-height: 500px">
+                            <div class="Header_Comment">Comment</div>
+                            <div class="mb-3">
+                                <textarea class="form-control"
+                                          name=""
+                                          id="InputComment"
+                                          rows="3"
+                                          placeholder="Enter comment"></textarea>
+                                <div class="Btn float-right" id="BtnComment">Comment</div>
+                            </div>
+                            <div id="comment-group">
+
+
+                            </div>
+                            <nav aria-label="Page navigation example" class="mt-4" id="pagination-container">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <button class="page-link" id="BtnPrePage"  aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </button>
+                                    </li>
+                                    <li class="page-item"><span class="page-link" id="currentPage">1</span></li>
+                                    <li class="page-item">
+                                        <button class="page-link" id="BtnNextPage" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>
@@ -18,83 +50,132 @@
         </div>
     </div>
 </section>
+<!-- Modal -->
+<div class="modal fade" id="ModelDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:red" id="exampleModalLongTitle">Bạn có muốn xóa bình luận này không</h5>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="YesDelete" class="btn btn-primary">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="ModelUpdate" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:red" id="exampleModalLongTitle">Nhập thông tin chỉnh sửa</h5>
+
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control"
+                          name=""
+                          id="InputUpdate"
+                          rows="3"
+                          placeholder="Enter comment"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="YesUpdate" class="btn btn-primary">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts{
     <script>
-    
+
         const url = "https://localhost:7053/api";
         let id = location.href.split("/");
+        let mataikhoan = localStorage.getItem("MaTK");
         id = id[id.length - 1];
+        let pagination = {
+            totalCount: 7,
+            pageSize: 5,
+            currentPage: 1,
+            totalPages: 1,
+            previousPage: false,
+            nextPage: false,
+            data: []
+        }
+        // Kiểm tra ID
         if (isInterger(id)) {
             $.ajax({
-                url: url + "/Movies/" +id,
+                url: url + "/Movies/" + id,
                 headers: {
                     "Content-Type": "application/json"
                 },
                 method: "GET",
                 success: function (data) {
                     let idvideo = data.duongdan.split("=");
-                    idvideo = idvideo[idvideo.length-1]
+                    idvideo = idvideo[idvideo.length - 1]
                     let result = `<div class="gen-video-holder">
-                                <iframe width="100%" height="550px" src="https://www.youtube.com/embed/${idvideo}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard - write; encrypted - media; gyroscope; picture -in -picture" allowfullscreen></iframe>
-                                 
-                                   </div>
-                                <div class="gen-single-movie-info">
-                                <h2 class="gen-title">${data.tenphim}</h2>
-                                <div class="gen-single-meta-holder">
-                                    <ul>
-                                        <li class="gen-sen-rating">TV-PG</li>
-                                        <li>
-                                            <i class="fas fa-eye">
-                                            </i>
-                                            <span>237 Views</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <p>
-                                   ${data.motaphim}
-                                </p>
-                                <div class="gen-after-excerpt">
-                                    <div class="gen-extra-data">
-                                        <ul>
-                                            <li>
-                                                <span>Language :</span>
-                                                <span>${data.ngonngu}</span>
-                                            </li>
-                                            <li>
-                                                <span>Subtitles :</span>
-                                                <span>${data.ngonngu}</span>
-                                            </li>
-                                            <li>
-                                                <span>Audio Languages :</span>
-                                                <span>${data.ngonngu}</span>
-                                            </li>
-                                            <li>
-                                                <span>Genre :</span>
-                                                <span>
-                                                    <a href="action.html">
-                                                        Action,
-                                                    </a>
-                                                </span>
-                                                <span>
-                                                    <a href="adventure.html">
-                                                        Documentary
-                                                    </a>
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span>Run Time :</span>
-                                                <span>${data.thoiluong} mins</span>
-                                            </li>
-                                            <li>
-                                                <span>Release Date :</span>
-                                                <span>${data.nam}</span>
-                                            </li>
-                                        </ul>
+                                        <iframe width="100%" height="550px" src="https://www.youtube.com/embed/${idvideo}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard - write; encrypted - media; gyroscope; picture -in -picture" allowfullscreen></iframe>
+
+                                           </div>
+                                        <div class="gen-single-movie-info">
+                                        <h2 class="gen-title">${data.tenphim}</h2>
+                                        <div class="gen-single-meta-holder">
+                                            <ul>
+                                                <li class="gen-sen-rating">TV-PG</li>
+                                                <li>
+                                                    <i class="fas fa-eye">
+                                                    </i>
+                                                    <span>237 Views</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <p>
+                                           ${data.motaphim}
+                                        </p>
+                                        <div class="gen-after-excerpt">
+                                            <div class="gen-extra-data">
+                                                <ul>
+                                                    <li>
+                                                        <span>Language :</span>
+                                                        <span>${data.ngonngu}</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>Subtitles :</span>
+                                                        <span>${data.ngonngu}</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>Audio Languages :</span>
+                                                        <span>${data.ngonngu}</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>Genre :</span>
+                                                        <span>
+                                                            <a href="action.html">
+                                                                Action,
+                                                            </a>
+                                                        </span>
+                                                        <span>
+                                                            <a href="adventure.html">
+                                                                Documentary
+                                                            </a>
+                                                        </span>
+                                                    </li>
+                                                    <li>
+                                                        <span>Run Time :</span>
+                                                        <span>${data.thoiluong} mins</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>Release Date :</span>
+                                                        <span>${data.nam}</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        `;
-                   
+                                `;
+
                     $("#DetailsMovies").html(result);
 
                 },
@@ -102,17 +183,195 @@
                     console.log(err);
                 }
             })
+            getComment();
         } else {
-            window.history.back()
+            window.location = "/Home/Index";
         }
+        // Lay comment
         
+        function getComment() {
+            $.ajax({
+                url: url + "/CommentByMovie/" + id + `?pageNumber=${pagination.currentPage}&pageSize=${pagination.pageSize}`,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                method: "GET",
+                success: function (data) {
+                    pagination = data;
+                    $('#currentPage').html(pagination.currentPage);
+                    if (!pagination.nextPage) {
+                        $("#BtnNextPage").css("cursor", "not-allowed");
+                        $('#BtnNextPage').prop('disabled', true);
+                    } else {
+                        $("#BtnNextPage").css("cursor", "pointer");
+                        $('#BtnNextPage').prop('disabled', false);
+
+
+                    }
+                    if (!pagination.previousPage) {
+                        $("#BtnPrePage").css("cursor", "not-allowed");
+                        $('#BtnPrePage').prop('disabled', true);
+
+
+                    } else {
+                        $("#BtnPrePage").css("cursor", "pointer");
+                        $('#BtnPrePage').prop('disabled', false);
+
+
+                    }
+                    let result = ``;
+                    pagination.data.forEach((item, index) => {
+                        let time = new Date(item.thoigian)
+                        if (item.mataikhoan == mataikhoan) {
+                            result += `<div class="comment-item">
+                                            <img class="user-comment" src="https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg" />
+                                            <div class="content-container">
+                                                <div class="content-name">
+                                                    ${item.tentaikhoan}
+                                                    <span style="color:red; margin-left:10px; cursor:pointer" onclick="ConfirmDelete(${item.mabinhluan})" class="BtnDelete"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                                                    <span style="color:blue;margin-left:5px; cursor:pointer" onclick="ConfirmUpdate(${item.mabinhluan}, '${item.noidung}')" class="BtnUpdate"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span>
+                                                </div>
+                                                <div class="comment-content">
+                                                    ${item.noidung}
+                                                </div>
+                                            </div>
+                                            <div class="comment-time">${time.getDate()}/${time.getMonth() + 1}/${time.getFullYear()}</div>
+                                        </div>`
+                        } else {
+                            result += `<div class="comment-item">
+                                            <img class="user-comment" src="https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg" />
+                                            <div class="content-container">
+                                                <div class="content-name">
+                                                    ${item.tentaikhoan}
+                                                </div>
+                                                <div class="comment-content">
+                                                    ${item.noidung}
+                                                </div>
+                                            </div>
+                                            <div class="comment-time">${time.getDate()}/${time.getMonth() + 1}/${time.getFullYear()}</div>
+                                        </div>`
+                        }
+
+                    })
+                    $("#comment-group").html(result);
+
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+        // Hiện modal
+
+        let idDelete = 0;
+        function ConfirmDelete(id) {
+            idDelete = id;
+            $('#ModelDelete').modal('show');
+
+        }
+        let idUpdate = 0;
+
+        function ConfirmUpdate(id, noidung) {
+            idUpdate = id;
+            $("#InputUpdate").val(noidung)
+
+            $('#ModelUpdate').modal('show');
+
+        }
+        // Xác nhận xóa
+        $('#YesDelete').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: url + `/Comment/${idDelete}?MaTaiKhoan=${mataikhoan}`,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                method: "DELETE",
+                success: function (data) {
+                    getComment();
+                    $('#ModelDelete').modal('hide')
+                },
+                error: function (err) {
+                    alert("Thất bại");
+                    console.log(err);
+                }
+            })
+        })
+        // Xác nhận chỉnh sửa
+        $('#YesUpdate').click(function (e) {
+            e.preventDefault();
+            let input = $("#InputUpdate").val();
+
+            let tg = new Date(Date.now());
+            tg = tg.getFullYear() + "-" + (tg.getMonth() + 1) + "-" + (tg.getDate());
+            $.ajax({
+                url: url + `/Comment/${idUpdate}?mataikhoan=${mataikhoan}&maphim=${id}&noidung=${input}&thoigian=${tg}`,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                method: "PUT",
+                success: function (data) {
+                    getComment();
+                    $('#ModelUpdate').modal('hide')
+                },
+                error: function (err) {
+                    alert("Thất bại");
+                    console.log(err);
+                }
+            })
+        })
+        // Kiểm tra số
         function isInterger(value) {
-         if (value.match(/^\d+$/)) {
-            return true;
-        } else {
-            return false;
+            if (value.match(/^\d+$/)) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        }
-        </script>
-    }
+        //Tao comment
+        $("#BtnComment").click(function () {
+            let input = $("#InputComment").val();
+            if (input.trim().length > 0) {
+                let tg = new Date(Date.now());
+                tg = tg.getFullYear() + "-" + (tg.getMonth() + 1) + "-" + (tg.getDate());
+                $.ajax({
+                    url: url + `/Comment?mataikhoan=${mataikhoan}&maphim=${id}&noidung=${input}&thoigian=${tg}`,
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    method: "POST",
+                    success: function (data) {
+                        getComment();
+                        $("#InputComment").val('');
+
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        alert("Thất bại");
+                    }
+                })
+            } else {
+                alert("Bạn phải nhập dữ liệu");
+            }
+            ;
+        })
+        // Pagination
+        $("#BtnNextPage").click(function (e) {
+            e.preventDefault();
+            if (pagination.nextPage) {
+                pagination.currentPage += 1;
+                getComment();
+            } 
+
+        })
+        $("#BtnPrePage").click(function (e) {
+            e.preventDefault();
+            if (pagination.previousPage) {
+                pagination.currentPage -= 1;
+                getComment();
+            } 
+
+        })
+    </script>
+}
 <!-- Single movie End -->
