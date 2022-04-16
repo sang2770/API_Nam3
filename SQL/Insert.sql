@@ -102,3 +102,9 @@ Insert into TB_PHIM_QUOCGIA values(N'1',N'17')
 Insert into TB_PHIM_QUOCGIA values(N'2',N'18')
 Insert into TB_PHIM_QUOCGIA values(N'2',N'19')
 Insert into TB_PHIM_QUOCGIA values(N'2',N'20')
+
+-- bang binh luan
+Insert into TB_BINHLUAN(MATAIKHOAN, MAPHIM, NOIDUNG, THOIGIAN) values(1, 1, N'Phim rất hay', '2022/04/16');
+Insert into TB_BINHLUAN(MATAIKHOAN, MAPHIM, NOIDUNG, THOIGIAN) values(1, 1, N'Phim rất hay', '2022/04/16');
+Insert into TB_BINHLUAN(MATAIKHOAN, MAPHIM, NOIDUNG, THOIGIAN) values(1, 2, N'Phim  hay', '2022/04/16');
+Insert into TB_BINHLUAN(MATAIKHOAN, MAPHIM, NOIDUNG, THOIGIAN) values(1, 2, N'Phim rất hay', '2022/04/16');

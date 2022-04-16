@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BTL_APIMOVIE.Models;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace BTL_APIMOVIE.Controllers
 {
@@ -23,11 +24,58 @@ namespace BTL_APIMOVIE.Controllers
         }
 
         // GET: api/Comment
-        [Route("/api/Coment/{MaPhim}")]
+        [Route("/api/CommentByMovie/{MaPhim}")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TbBinhluan>>> GetTbBinhluans(int MaPhim)
+        public ActionResult GetTbBinhluans(int MaPhim, int pageNumber, int pageSize)
         {
-            return await _context.TbBinhluans.Where(n=>n.Maphim==MaPhim).ToListAsync();
+            var query = (from comment in _context.TbBinhluans
+                        join tk in _context.TbNguoidungs
+                        on comment.Mataikhoan equals tk.Mataikhoan
+                        where comment.Maphim == MaPhim
+                        orderby comment.Thoigian descending
+                        select new
+                        {
+                            mabinhluan = comment.Mabinhluan,
+                            tentaikhoan = tk.Tendangnhap,
+                            noidung = comment.Noidung,
+                            thoigian = comment.Thoigian,
+                            mataikhoan=tk.Mataikhoan
+                        }).AsQueryable();
+            int count = query.Count();
+
+            // Parameter is passed from Query string if it is null then it default Value will be pageNumber:1  
+            int CurrentPage = pageNumber;
+
+            // Parameter is passed from Query string if it is null then it default Value will be pageSize:20  
+            int PageSize = pageSize;
+
+            // Display TotalCount to Records to User  
+            int TotalCount = count;
+
+            // Calculating Totalpage by Dividing (No of Records / Pagesize)  
+            int TotalPages = (int)Math.Ceiling(count / (double)PageSize);
+
+            // Returns List of Customer after applying Paging   
+            var items = query.Skip((CurrentPage - 1) * PageSize).Take(PageSize).ToList();
+
+            // if CurrentPage is greater than 1 means it has previousPage  
+            var previousPage = CurrentPage > 1 ? true : false;
+
+            // if TotalPages is greater than CurrentPage means it has nextPage  
+            var nextPage = CurrentPage < TotalPages ? true : false;
+
+            // Object which we are going to send in header   
+            var paginationMetadata = new
+            {
+                totalCount = TotalCount,
+                pageSize = PageSize,
+                currentPage = CurrentPage,
+                totalPages = TotalPages,
+                previousPage,
+                nextPage, 
+                data=items
+            };
+            return Ok(paginationMetadata);
         }
 
         // GET: api/Comment/5
@@ -47,52 +95,40 @@ namespace BTL_APIMOVIE.Controllers
         // PUT: api/Comment/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTbBinhluan(int id, int MaTaiKhoan, TbBinhluan tbBinhluan)
+        public async Task<IActionResult> PutTbBinhluan(int id, int mataikhoan, int maphim, string noidung, string thoigian)
         {
-            if (id != tbBinhluan.Mabinhluan || MaTaiKhoan!=tbBinhluan.Mataikhoan)
-            {
-                return BadRequest();
-            }
+            var tbBinhluan = await _context.TbBinhluans.FindAsync(id);
 
-            _context.Entry(tbBinhluan).State = EntityState.Modified;
-
-            try
+            if (tbBinhluan == null || tbBinhluan.Mataikhoan != mataikhoan || tbBinhluan.Maphim!=maphim)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TbBinhluanExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            tbBinhluan.Noidung = noidung;
+            tbBinhluan.Thoigian = DateTime.Parse(thoigian);
 
-            return NoContent();
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         // POST: api/Comment
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TbBinhluan>> PostTbBinhluan(TbBinhluan tbBinhluan)
+        public async Task<ActionResult<TbBinhluan>> PostTbBinhluan(int mataikhoan,int maphim,string noidung,string thoigian)
         {
+            TbBinhluan tbBinhluan = new TbBinhluan(mataikhoan, maphim, noidung, DateTime.Parse(thoigian));
             _context.TbBinhluans.Add(tbBinhluan);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTbBinhluan", new { id = tbBinhluan.Mabinhluan }, tbBinhluan);
         }
-        [Authorize]
         // DELETE: api/Comment/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTbBinhluan(int id, int MaTaiKhoan)
         {
             var tbBinhluan = await _context.TbBinhluans.FindAsync(id) ;
             
-            if (tbBinhluan == null || tbBinhluan.Mataikhoan==MaTaiKhoan)
+            if (tbBinhluan == null || tbBinhluan.Mataikhoan!=MaTaiKhoan)
             {
                 return NotFound();
             }
