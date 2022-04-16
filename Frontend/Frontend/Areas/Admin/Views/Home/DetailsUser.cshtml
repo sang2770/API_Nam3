@@ -3,7 +3,6 @@
     ViewBag.Title = "DetailsUser";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
 <head>
     <style>
 
@@ -80,22 +79,83 @@
             display: table;
         }
     </style>
+   
 </head>
-<form action="">
-    <div class="container">
-        <h1>Form Thông Tin Người Dùng</h1>
-        
-        <hr>
-        <label for="email"><b>Tên Đăng Nhập</b></label>
-        <input type="text" placeholder="Tài Khoản" name="TK" required>
-        <label for="psw"><b>Mật Khẩu</b></label>
-        <input type="password" placeholder="Nhập Mật Khẩu" name="psw" required>
-        <label for="psw-repeat"><b>Loại Tài Khoản</b></label>
-        <input type="password" placeholder="Loại Tài kHoant" name="psw-repeat" required>
-       
-        <div class="clearfix">
-            <button type="submit" class="signupbtn">Sign Up</button>
-        </div>
-    </div>
-</form>
+<body>
+    <form action="">
+        <div class="container">
+            <h1>Form Thông Tin Người Dùng</h1>
 
+            <hr>
+            <label for="email"><b>Tên Đăng Nhập</b></label>
+            <input id="TK" class="input-large" type="text" placeholder="Tài Khoản" name="TK" required>
+            <label for="psw"><b>Mật Khẩu</b></label>
+            <input id="MK" type="text" class="input-large" placeholder="Nhập Mật Khẩu" name="psw" required>
+
+            <label for="psw-repeat"><b>Loại Tài Khoản</b></label>
+            <input id="LoaiTK" class="input-large" type="text" placeholder="Loại Tài kHoant" name="psw-repeat" required>
+
+            <div class="clearfix">
+                <button type="submit" class="signupbtn" onclick=UpdateKhachHang()>Update</button>
+                
+            </div>
+        </div>
+    </form>
+    <a href="/Admin/Home/Index"><button class="signupbtn" style="background-color:dodgerblue">Back</button></a>
+</body>
+
+@section scripts{
+    <script>
+        const url = "https://localhost:7053/api";
+        let id = location.href.split("/");
+        id = id[id.length - 1];
+        $('document').ready(function () {
+            
+            if (/\d/.test(id)) {
+                $.ajax({
+                    url: 'https://localhost:7053/api/User/'+id,
+                    method: "GET",
+                    contentType: "json",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log("Success");
+
+                        $("#TK").val(data.tendangnhap);
+                        $("#MK").val(data.matkhau);
+                        $("#LoaiTK").val(data.loaitaikhoan);
+
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            }
+           
+        })
+        function UpdateKhachHang() {
+            var formdata = {
+                mataikhoan: id,
+                tendangnhap: $("#TK").val(),
+                loaitaikhoan: $("#LoaiTK").val(),
+                matkhau: $("#MK").val(),
+                tbBinhluans: []
+            };
+            $.ajax({
+                url: 'https://localhost:7053/api/User/'+id,
+                method: 'PUT',
+                contentType: 'application/json',
+                
+                data: JSON.stringify(formdata),
+                dataType: 'json',
+                error: function (response) {
+                    alert("Sửa không thành công");
+                },
+                success: function (user) {
+                    alert("Sửa thành công");
+                    GetAllCustomers(); //Gọi đến hàm lấy dữ liệu lên bảng
+                }
+            });
+        }
+      
+    </script>
+    }

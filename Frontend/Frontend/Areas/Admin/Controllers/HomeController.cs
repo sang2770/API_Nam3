@@ -17,6 +17,13 @@ namespace Frontend.Areas.Admin.Controllers
         {
             return View();
         }
-
+        public ActionResult ListMovie()
+        {
+            return View();
+        }
+        public ActionResult CreateMovie()
+        {
+            return View();
+        }
     }
 }
