@@ -199,6 +199,7 @@
                 },
                 method: "GET",
                 success: function (data) {
+                    listMovieBycategory = [];
                     data.forEach((item, index) => {
                         listMovieBycategory.push(item);
                     })
@@ -266,9 +267,7 @@
                 $('#NameCategory').html($(this).val())
             } else {
                 $('#NameCategory').html("All Movie");
-
             }
-
         });
 
         $(".Btn").click(function () {
