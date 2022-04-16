@@ -55,12 +55,16 @@
     padding: 20px;
     border: 1px solid var(--primary-color);
     margin-top: 20px;
+    height:500px;
+    overflow-y:scroll
+        
 }
 
 .comment-item {
     display: flex;
     padding: 10px;
     border-bottom: 1px solid #ccc;
+    
 }
 
 .user-comment {
@@ -82,4 +86,6 @@
 .comment-time {
     flex: 1;
     text-align: right;
+}
+#pagination-container{
 }

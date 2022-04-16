@@ -32,7 +32,7 @@ namespace BTL_APIMOVIE.Controllers
                         join tk in _context.TbNguoidungs
                         on comment.Mataikhoan equals tk.Mataikhoan
                         where comment.Maphim == MaPhim
-                        orderby comment.Thoigian descending
+                        orderby comment.Mabinhluan descending
                         select new
                         {
                             mabinhluan = comment.Mabinhluan,
@@ -41,19 +41,17 @@ namespace BTL_APIMOVIE.Controllers
                             thoigian = comment.Thoigian,
                             mataikhoan=tk.Mataikhoan
                         }).AsQueryable();
-            int count = query.Count();
-
             // Parameter is passed from Query string if it is null then it default Value will be pageNumber:1  
-            int CurrentPage = pageNumber;
+            int CurrentPage = pageNumber>0?pageNumber:1;
 
             // Parameter is passed from Query string if it is null then it default Value will be pageSize:20  
-            int PageSize = pageSize;
+            int PageSize = pageSize>0?pageSize:1;
 
-            // Display TotalCount to Records to User  
-            int TotalCount = count;
+            // tất cả bản ghi 
+            int TotalCount = query.Count(); ;
 
             // Calculating Totalpage by Dividing (No of Records / Pagesize)  
-            int TotalPages = (int)Math.Ceiling(count / (double)PageSize);
+            int TotalPages = (int)Math.Ceiling(TotalCount / (double)PageSize);
 
             // Returns List of Customer after applying Paging   
             var items = query.Skip((CurrentPage - 1) * PageSize).Take(PageSize).ToList();
