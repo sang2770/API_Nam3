@@ -25,5 +25,9 @@ namespace Frontend.Areas.Admin.Controllers
         {
             return View();
         }
+        public ActionResult DetailMovie()
+        {
+            return View();
+        }
     }
 }

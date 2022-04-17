@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "CreateMovie";
+    ViewBag.Title = "DetailMovie";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -33,7 +33,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" placeholder="Title">
+                                    <input n type="text" class="form__input" placeholder="Title">
                                 </div>
                             </div>
 
@@ -55,12 +55,11 @@
                                 </div>
                             </div>
 
-                           
+
 
                             <div class="col-12 col-lg-6">
                                 <div class="form__group">
                                     <select class="js-example-basic-multiple" id="country" multiple="multiple">
-                                        
                                     </select>
                                 </div>
                             </div>
@@ -68,7 +67,6 @@
                             <div class="col-12 col-lg-6">
                                 <div class="form__group">
                                     <select class="js-example-basic-multiple" id="genre" multiple="multiple">
-                                        
                                     </select>
                                 </div>
                             </div>
@@ -82,7 +80,7 @@
                         </div>
                     </div>
 
-                  
+
 
                     <div class="col-12">
                         <div class="row">
@@ -112,10 +110,12 @@
 </div>
 @section scripts{
     <script>
-        
+        const url = "https://localhost:7053/api";
+        let id = location.href.split("/");
+        id = id[id.length - 1];
         var strCategory = "";
         var strCountry = "";
-        
+
         $.ajax({
             url: 'https://localhost:7053/api/Category',
             method: "GET",
@@ -127,7 +127,7 @@
                 $.each(data, function (key, value) {
                     strCategory += `<option value="${value.tenloaiphim}">${value.tenloaiphim}</option>`;
                 })
-               
+
                 $("#genre").html(strCategory);
 
 
@@ -147,7 +147,7 @@
                 $.each(data, function (key, value) {
                     strCountry += `<option value="${value.tenquocgia}">${value.tenquocgia}</option>`;
                 })
-              
+
                 $("#country").html(strCountry);
 
 
@@ -156,9 +156,28 @@
                 console.log(err);
             }
         })
-                
-          
+        if (/\d/.test(id)) {
+            $.ajax({
+                url: 'https://localhost:7053/api/Movies/' + id,
+                method: "GET",
+                contentType: "json",
+                dataType: "json",
+                success: function (data) {
+                    console.log("Success");
+
+                    $("#TK").val(data.tendangnhap);
+                    $("#MK").val(data.matkhau);
+                    $("#LoaiTK").val(data.loaitaikhoan);
+
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+
     </script>
 
 
 }
+
