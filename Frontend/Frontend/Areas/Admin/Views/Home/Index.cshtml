@@ -87,6 +87,14 @@
             contentType: "json",
             dataType: "json",
             success: function (data) {
+                $("#Modellocation").html(`<div id="modal-delete" class="zoom-anim-dialog modal modal1 mfp-hide">
+                    <h6 class="modal__title">User delete</h6>
+                    <p class="modal__text">Bạn có chắc chẵn muốn xóa người dùng này không?</p>
+                    <div class="modal__btns">
+                        <button class="modal__btn modal__btn--apply" type="button">Delete</button>
+                        <button class="modal__btn modal__btn--dismiss" data-dismiss="modal" type="button">Dismiss</button>
+                    </div>
+                </div>`);
                 console.log("Success");
 
                 $.each(data, function (key, value) {
@@ -126,16 +134,10 @@
 
                                                 </tr>`
                 })
-
+               
                 $('#ListUser').html(str1);
-                $("#Modellocation").html(`<div id="modal-delete" class="zoom-anim-dialog modal modal1 mfp-hide">
-                    <h6 class="modal__title">User delete</h6>
-                    <p class="modal__text">Bạn có chắc chẵn muốn xóa người dùng này không?</p>
-                    <div class="modal__btns">
-                        <button class="modal__btn modal__btn--apply" type="button">Delete</button>
-                        <button class="modal__btn modal__btn--dismiss" data-dismiss="modal" type="button">Dismiss</button>
-                    </div>
-                </div>`);
+               
+                
             },
             error: function (err) {
                 console.log(err);

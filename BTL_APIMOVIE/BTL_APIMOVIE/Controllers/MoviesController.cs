@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BTL_APIMOVIE.Models;
 using Microsoft.AspNetCore.Authorization;
+using BTL_APIMOVIE.Auth;
 
 namespace BTL_APIMOVIE.Controllers
 {
-    
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MoviesController : ControllerBase
@@ -93,7 +94,7 @@ namespace BTL_APIMOVIE.Controllers
             return tbPhims;
         }
 
-
+        [Authorize(Roles = Role.Admin)]
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -124,6 +125,7 @@ namespace BTL_APIMOVIE.Controllers
 
             return NoContent();
         }
+        [Authorize(Roles = Role.Admin)]
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -134,7 +136,7 @@ namespace BTL_APIMOVIE.Controllers
 
             return CreatedAtAction("GetTbPhim", new { id = tbPhim.Maphim }, tbPhim);
         }
-
+        [Authorize(Roles = Role.Admin)]
         // DELETE: api/Movies/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTbPhim(int id)

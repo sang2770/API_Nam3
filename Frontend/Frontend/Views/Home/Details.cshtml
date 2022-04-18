@@ -92,6 +92,10 @@
     <script>
 
         const url = "https://localhost:7053/api";
+        const Header = {
+            "Authorization": "Bearer " + localStorage.getItem("token"),
+            "Content-Type": "application/json"
+        }
         let id = location.href.split("/");
         let mataikhoan = localStorage.getItem("MaTK");
         id = id[id.length - 1];
@@ -108,9 +112,7 @@
         if (isInterger(id)) {
             $.ajax({
                 url: url + "/Movies/" + id,
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: Header,
                 method: "GET",
                 success: function (data) {
                     let idvideo = data.duongdan.split("=");
@@ -181,6 +183,9 @@
                 },
                 error: function (err) {
                     console.log(err);
+                    if (err.status == 401) {
+                        window.location = "/Home/Login";
+                    }
                 }
             })
             getComment();
@@ -188,13 +193,11 @@
             window.location = "/Home/Index";
         }
         // Lay comment
-        
+
         function getComment() {
             $.ajax({
                 url: url + "/CommentByMovie/" + id + `?pageNumber=${pagination.currentPage}&pageSize=${pagination.pageSize}`,
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: Header,
                 method: "GET",
                 success: function (data) {
                     pagination = data;
@@ -224,7 +227,7 @@
                         let time = new Date(item.thoigian)
                         if (item.mataikhoan == mataikhoan) {
                             result += `<div class="comment-item">
-                                            <img class="user-comment" src="https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg" />
+                                            <img class="user-comment" src="@Url.Content("~/Images/background/User.png")" />
                                             <div class="content-container">
                                                 <div class="content-name">
                                                     ${item.tentaikhoan}
@@ -239,7 +242,7 @@
                                         </div>`
                         } else {
                             result += `<div class="comment-item">
-                                            <img class="user-comment" src="https://iphonecugiare.com/wp-content/uploads/2020/03/90072494_1148106232202126_7381238139576123392_o.jpg" />
+                                            <img class="user-comment" src="@Url.Content("~/Images/background/User.png")" />
                                             <div class="content-container">
                                                 <div class="content-name">
                                                     ${item.tentaikhoan}
@@ -258,6 +261,9 @@
                 },
                 error: function (err) {
                     console.log(err);
+                    if (err.status == 401) {
+                        window.location = "/Home/Login";
+                    }
                 }
             })
         }
@@ -283,9 +289,7 @@
             e.preventDefault();
             $.ajax({
                 url: url + `/Comment/${idDelete}?MaTaiKhoan=${mataikhoan}`,
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: Header,
                 method: "DELETE",
                 success: function (data) {
                     getComment();
@@ -294,6 +298,9 @@
                 error: function (err) {
                     alert("Thất bại");
                     console.log(err);
+                    if (err.status == 401) {
+                        window.location = "/Home/Login";
+                    }
                 }
             })
         })
@@ -306,9 +313,7 @@
             tg = tg.getFullYear() + "-" + (tg.getMonth() + 1) + "-" + (tg.getDate());
             $.ajax({
                 url: url + `/Comment/${idUpdate}?mataikhoan=${mataikhoan}&maphim=${id}&noidung=${input}&thoigian=${tg}`,
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: Header,
                 method: "PUT",
                 success: function (data) {
                     getComment();
@@ -317,6 +322,9 @@
                 error: function (err) {
                     alert("Thất bại");
                     console.log(err);
+                    if (err.status == 401) {
+                        window.location = "/Home/Login";
+                    }
                 }
             })
         })
@@ -336,9 +344,7 @@
                 tg = tg.getFullYear() + "-" + (tg.getMonth() + 1) + "-" + (tg.getDate());
                 $.ajax({
                     url: url + `/Comment?mataikhoan=${mataikhoan}&maphim=${id}&noidung=${input}&thoigian=${tg}`,
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers: Header,
                     method: "POST",
                     success: function (data) {
                         getComment();
@@ -347,6 +353,9 @@
                     },
                     error: function (err) {
                         console.log(err);
+                        if (err.status == 401) {
+                            window.location = "/Home/Login";
+                        }
                         alert("Thất bại");
                     }
                 })
@@ -361,7 +370,7 @@
             if (pagination.nextPage) {
                 pagination.currentPage += 1;
                 getComment();
-            } 
+            }
 
         })
         $("#BtnPrePage").click(function (e) {
@@ -369,7 +378,7 @@
             if (pagination.previousPage) {
                 pagination.currentPage -= 1;
                 getComment();
-            } 
+            }
 
         })
     </script>

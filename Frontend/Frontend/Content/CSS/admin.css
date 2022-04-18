@@ -34,9 +34,14 @@ Primary use:	FlixTV Admin Template
 /*==============================
 	Common styles
 ==============================*/
+#NameAdmin{
+    width:120px;
+    overflow:hidden;
+    text-overflow:ellipsis
+}
 html {
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 html,
 body {

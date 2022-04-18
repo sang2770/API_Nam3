@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- CSS -->
+    @Styles.Render("~/Content/Admin");
+    <!-- Favicons -->
+    @*<link rel="icon" type="image/png" href="icon/favicon-32x32.png" sizes="32x32">*@
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Dmitry Volkov">
+    <title>Login</title>
+
+</head>
+<body>
+    <!-- sign in -->
+    <div class="sign section--bg" style=" background: url(@Url.Content("~/Images/bg.jpg")) center center / cover no-repeat">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="sign__content">
+                        <!-- authorization form -->
+                        <form id="pms_login">
+                            <div class="sign__form">
+                                @Html.AntiForgeryToken()
+                                <p class="sign__logo" id="Title_Form">
+                                    Film <span class="Tv_Icon">Tv</span>
+                                </p>
+
+                                <div class="sign__group">
+                                    <input type="text" class="sign__input" placeholder="Tên đăng nhập" required  name="TenDangNhap">
+
+                                </div>
+
+                                <div class="sign__group">
+                                    <input type="password" class="sign__input" placeholder="Mật khẩu" id="user_pass" required name="MatKhau" >
+
+                                </div>
+                                <div class="sign__group sign__group--checkbox">
+                                    <input id="Remeber" type="checkbox">
+                                    <label for="Remeber">Show password</label>
+                                </div>
+                                <p class="text-danger" id="HelpText">  </p>
+                                <input type="submit" value="Login" class="sign__btn" />
+                            </div>
+                        </form>
+                            
+                        }
+                        <!-- end authorization form -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end sign in -->
+    <!-- JS -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $("#Remeber").change(function (e) {
+            if ($(this).is(':checked')) {
+                $("#user_pass").attr('type', "text");
+
+            } else {
+                $("#user_pass").attr('type', "password");
+            }
+        })
+        const url = "https://localhost:7053/api/Authenticate/Login";
+        $("#pms_login").submit(function (e) {
+            e.preventDefault();
+            console.log(e);
+            $("#Helps").html("");
+            var form = new FormData(e.target);
+            var object = {};
+            form.forEach((value, key) => {
+                object[key] = value;
+            });
+            $("#HelpText").html("");
+            $.ajax({
+                url: url,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                method: "POST",
+
+                data: JSON.stringify(object),
+                success: function (data) {
+                    localStorage.setItem("tokenAdmin", data.token);
+                    localStorage.setItem("NameAdmin", data.user.tendangnhap);
+                    localStorage.setItem("MaTKAdmin", data.user.mataikhoan);
+                    $("#HelpText").html("");
+                    //e.target.reset();
+                    window.location = "/Admin/Home/Index";
+                },
+                error: function (err) {
+                    $("#HelpText").html("Tài khoản hoặc mật khẩu không đúng");
+                }
+            })
+            return true;
+        })
+    </script>
+</body>
+
+</html>

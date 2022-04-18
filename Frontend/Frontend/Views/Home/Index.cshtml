@@ -66,11 +66,13 @@
         const url = "https://localhost:7053/api";
         let number = 4;
         let listMovieBycategory = [];
+        const Header = {
+            "Authorization": "Bearer " + localStorage.getItem("token"),
+            "Content-Type": "application/json"
+        }
         $.ajax({
-            url: url +"/Movies/GetMovieByRate",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            url: url + "/Movies/GetMovieByRate",
+            headers: Header,
             method: "GET",
             success: function (data) {
                 let result = "";
@@ -161,13 +163,15 @@
             },
             error: function (err) {
                 console.log(err);
+                if (err.status == 401) {
+                    alert("Bạn cần đăng nhập lại");
+                    window.location = "/Home/Login";
+                }
             }
         })
         $.ajax({
             url: url + "/Category",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: Header,
             method: "GET",
             success: function (data) {
                 let result = "<option value=''>All</option>";
@@ -178,8 +182,13 @@
             },
             error: function (err) {
                 console.log(err);
+                if (err.status == 401) {
+                    alert("Bạn cần đăng nhập lại");
+                    window.location = "/Home/Login";
+                }
             }
         })
+
         function GetDetails(id) {
             window.location = "/Home/Details/" + id;
         }
@@ -193,10 +202,8 @@
             }
             console.log(Url)
             $.ajax({
-                url: Url ,
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                url: Url,
+                headers: Header,
                 method: "GET",
                 success: function (data) {
                     listMovieBycategory = [];
@@ -207,6 +214,10 @@
                 },
                 error: function (err) {
                     console.log(err);
+                    if (err.status == 401) {
+                        alert("Bạn cần đăng nhập lại");
+                        window.location = "/Home/Login";
+                    }
                 }
             })
         }
