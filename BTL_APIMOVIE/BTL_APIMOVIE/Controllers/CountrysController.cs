@@ -95,7 +95,12 @@ namespace BTL_APIMOVIE.Controllers
             {
                 return NotFound();
             }
-
+            
+            List<TbPhimQuocgia> tbPhimQuocgias = _context.TbPhimQuocgia.Where(n => n.Maquocgia == id).ToList();
+            foreach (TbPhimQuocgia item in tbPhimQuocgias)
+            {
+                _context.TbPhimQuocgia.Remove(item);
+            }
             _context.TbQuocgia.Remove(tbQuocgia);
             await _context.SaveChangesAsync();
 
