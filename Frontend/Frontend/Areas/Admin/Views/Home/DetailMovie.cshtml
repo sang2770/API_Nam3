@@ -33,25 +33,30 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form__group">
-                                    <input n type="text" class="form__input" placeholder="Title">
+                                    <input id="NameMovie" type="text" class="form__input" placeholder="Title">
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <div class="form__group">
-                                    <textarea id="text" name="text" class="form__textarea" placeholder="Description"></textarea>
+                                    <textarea id="Mota" name="text" class="form__textarea" placeholder="Description"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" placeholder="Release year">
+                                    <input id="Nam" type="text" class="form__input" placeholder="Release year">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-6">
+                                <div class="form__group">
+                                    <input id="NgonNgu" type="text" class="form__input" placeholder="language">
                                 </div>
                             </div>
 
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" placeholder="Running timed in minutes">
+                                    <input id="Time" type="text" class="form__input" placeholder="Running timed in minutes">
                                 </div>
                             </div>
 
@@ -93,7 +98,7 @@
 
                             <div class="col-12 col-lg-6">
                                 <div class="form__group form__group--link">
-                                    <input type="text" class="form__input" placeholder="or add a link">
+                                    <input id="Link" type="text" class="form__input" placeholder="or add a link">
                                 </div>
                             </div>
 
@@ -115,7 +120,8 @@
         id = id[id.length - 1];
         var strCategory = "";
         var strCountry = "";
-
+        var quocgia = "", theloai = "";
+        
         $.ajax({
             url: 'https://localhost:7053/api/Category',
             method: "GET",
@@ -165,9 +171,14 @@
                 success: function (data) {
                     console.log("Success");
 
-                    $("#TK").val(data.tendangnhap);
-                    $("#MK").val(data.matkhau);
-                    $("#LoaiTK").val(data.loaitaikhoan);
+                    $("#NameMovie").val(data.tenphim);
+                    $("#Mota").val(data.motaphim);
+                    $("#Nam").val(data.nam);
+                    $("#Time").val(data.thoiluong);
+                    $("#NgonNgu").val(data.ngonngu);
+                    $("#Link").val(data.duongdan);
+                   
+
 
                 },
                 error: function (err) {

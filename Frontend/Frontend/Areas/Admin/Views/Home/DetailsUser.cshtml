@@ -82,7 +82,7 @@
    
 </head>
 <body>
-    <form action="">
+    <form action="/Admin/Home/Index">
         <div class="container">
             <h1>Form Thông Tin Người Dùng</h1>
 
@@ -92,16 +92,22 @@
             <label for="psw"><b>Mật Khẩu</b></label>
             <input id="MK" type="text" class="input-large" placeholder="Nhập Mật Khẩu" name="psw" required>
 
-            <label for="psw-repeat"><b>Loại Tài Khoản</b></label>
-            <input id="LoaiTK" class="input-large" type="text" placeholder="Loại Tài kHoant" name="psw-repeat" required>
+            <label for="psw-repeat"><b>Loại Tài Khoản</b></label><br />
+                                                                 <select class="js-example-basic-multiple" id="genre">
+                                                                    
+                                                                     <option value="Admin">Admin</option>
+                                                                     <option value="Client">Client</option>
+                                                                 </select>
+
 
             <div class="clearfix">
                 <button type="submit" class="signupbtn" onclick=UpdateKhachHang()>Update</button>
-                
+                <button class="signupbtn" style="background-color:dodgerblue">Back</button>
             </div>
         </div>
     </form>
-    <a href="/Admin/Home/Index"><button class="signupbtn" style="background-color:dodgerblue">Back</button></a>
+    
+   
 </body>
 
 @section scripts{
@@ -109,6 +115,8 @@
         const url = "https://localhost:7053/api";
         let id = location.href.split("/");
         id = id[id.length - 1];
+        var ck1 = document.getElementById("genre");
+        
         $('document').ready(function () {
             
             if (/\d/.test(id)) {
@@ -122,7 +130,16 @@
 
                         $("#TK").val(data.tendangnhap);
                         $("#MK").val(data.matkhau);
-                        $("#LoaiTK").val(data.loaitaikhoan);
+                        $("#genre").val(data.loaitaikhoan);
+                        if (data.loaitaikhoan == "Admin") {
+                            $("#genre").html(`<option value="Admin" selected>Admin</option>
+                                                                     <option value="Client">Client</option>`);
+                        }
+                        if (data.loaitaikhoan == "Client") {
+                            $("#genre").html(`<option value="Admin">Admin</option>
+                                                                     <option value="Client" selected>Client</option>`);
+                        }
+
 
                     },
                     error: function (err) {
@@ -133,10 +150,11 @@
            
         })
         function UpdateKhachHang() {
+            
             var formdata = {
                 mataikhoan: id,
                 tendangnhap: $("#TK").val(),
-                loaitaikhoan: $("#LoaiTK").val(),
+                loaitaikhoan: $("#genre").val(),
                 matkhau: $("#MK").val(),
                 tbBinhluans: []
             };

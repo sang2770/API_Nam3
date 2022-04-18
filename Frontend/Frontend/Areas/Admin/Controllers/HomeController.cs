@@ -29,5 +29,14 @@ namespace Frontend.Areas.Admin.Controllers
         {
             return View();
         }
+        public ActionResult ListCountry()
+        {
+            return View();
+        }
+        public ActionResult ListCategory()
+        {
+            return View();
+        }
+
     }
 }
