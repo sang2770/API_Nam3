@@ -92,7 +92,6 @@ namespace BTL_APIMOVIE.Controllers
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
 
-        [Authorize]
         [HttpPost]
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)

@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 
 namespace BTL_APIMOVIE.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CommentController : ControllerBase
