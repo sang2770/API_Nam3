@@ -1,0 +1,101 @@
+﻿
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- main title -->
+        <div class="col-12">
+            <div class="main__title">
+                <h2>Thêm mới 1 tài khoản</h2>
+            </div>
+        </div>
+        <!-- end main title -->
+        <!-- form -->
+        <div class="col-12">
+            <form class="form" id="FormCreate">
+                <div class="row">
+                    <div class="col-12 col-md-7 form__content">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form__group">
+                                    <label class="Label text-white">Tên đăng nhập:</label>
+
+                                    <input type="text" class="form__input" name="Tendangnhap" placeholder="Tên đăng nhập">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form__group">
+                                    <label class="Label text-white">Mật khẩu:</label>
+                                    <input type="text" class="form__input" name="MatKhau" placeholder="Mật khẩu">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form__group">
+                                    <label class="Label text-white">Loại tài khoản:</label>
+                                    <select name="LoaiTaiKhoan" class=" form__input">
+                                        <option value="" selected disabled>Chọn loại tài khoản</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="User">User</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    <input type="submit" value="Tạo mới" class="form__btn" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end form -->
+            </form>
+        </div>
+    </div>
+    @section scripts{
+        <script>
+        const url = "https://localhost:7053/api/Authenticate/";
+        const Header = {
+            "Authorization": "Bearer " + localStorage.getItem("tokenAdmin"),
+            "Content-Type": "application/json"
+            }
+
+            $("#FormCreate").submit((function (e) {
+                e.preventDefault();
+                var form = new FormData(e.target);
+                var object = {};
+                let loaitaikhoan = form.get("LoaiTaiKhoan");
+                var Url = "";
+                if (loaitaikhoan == "Admin") {
+                    Url = url + "register-admin";
+                } else {
+                    Url = url +"register"
+                }
+                form.forEach((value, key) => {
+                    if (key !== "LoaiTaiKhoan") {
+                        object[key] = value;
+                    }
+                });
+                $.ajax({
+                    url: Url,
+                    headers: Header,
+                    method: "POST",
+                    data: JSON.stringify(object),
+                    success: function (data) {
+                        alert("Bạn đã tạo tài khoản thành công");
+                        e.target.reset();
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        alert("Thất bại");
+                    }
+                })
+                return true;
+        }))
+        </script>
+    }
+

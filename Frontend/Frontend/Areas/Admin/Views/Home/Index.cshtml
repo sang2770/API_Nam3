@@ -56,7 +56,7 @@
                             </tr>
                         </thead>
 
-                        <tbody id="ListUser" >
+                        <tbody id="ListUser">
                         </tbody>
                     </table>
                 </div>
@@ -88,16 +88,46 @@
 <!-- end main content -->
 <!-- modal delete -->
 <!-- modal delete -->
-<div id="Modellocation">
+<div id="modal-delete" class="zoom-anim-dialog modal mfp-hide">
+    <h6 class="modal__title">User delete</h6>
 
+    <p class="modal__text">Bạn có chắc chẵn muốn xóa người dùng này không?</p>
+
+    <div class="modal__btns">
+        <button class="modal__btn modal__btn--apply" id="YesDelete" type="button">Delete</button>
+        <button class="modal__btn modal__btn--dismiss" data-dismiss="modal" type="button">Dismiss</button>
+    </div>
 </div>
-
-<form action="/Admin/NhanVien/Delete" id="DeleteForm" method="post">
-    @Html.AntiForgeryToken()
-</form>
 @section scripts{
     <script>
+        function initModals() {
+            $('.open-modal').magnificPopup({
+                fixedContentPos: true,
+                fixedBgPos: true,
+                overflowY: 'auto',
+                type: 'inline',
+                preloader: false,
+                focus: '#username',
+                modal: false,
+                removalDelay: 300,
+                mainClass: 'my-mfp-zoom-in',
+            });
+
+            $('.modal__btn--dismiss').on('click', function (e) {
+                e.preventDefault();
+                $.magnificPopup.close();
+            });
+
+            $('.modal__btn--apply').on('click', function (e) {
+                e.preventDefault();
+                $.magnificPopup.close();
+            });
+        }
+
+
+        initModals();
         var str1 = "";
+        let idDelete = 0;
         let pagination = {
             totalCount: 7,
             pageSize: 2,
@@ -144,43 +174,42 @@
                     let result = ``;
                     pagination.data.forEach((value, index) => {
                         result += `<tr>
-                                                <td>
-                                                    <div class="main__table-text">
-                                                       ${value.mataikhoan}
-                                                    </div>
-                                                </td>
+                                                                        <td>
+                                                                            <div class="main__table-text">
+                                                                               ${value.mataikhoan}
+                                                                            </div>
+                                                                        </td>
 
-                                                <td>
-                                                    <div class="main__table-text">
-                                                       ${value.tendangnhap}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="main__table-text">
-                                                       ${value.loaitaikhoan}
-                                                    </div>
-                                                </td>
-                                                 <td>
-                                                    <div class="main__table-text">
-                                                       ${value.matkhau}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="main__table-btns">
-                                                        <a href="/Admin/Home/DetailsUser/${value.mataikhoan}" class="main__table-btn main__table-btn--edit">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z" /></svg>
-                                                        </a>
-                                                    <span href="#modal-delete" style="cursor:pointer" onclick="ConfirmDelete(${value.mataikhoan})" id="DeleteBtn" class="main__table-btn main__table-btn--delete open-modal">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z" /></svg>
-                                                        </span>
+                                                                        <td>
+                                                                            <div class="main__table-text">
+                                                                               ${value.tendangnhap}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="main__table-text">
+                                                                               ${value.loaitaikhoan}
+                                                                            </div>
+                                                                        </td>
+                                                                         <td>
+                                                                            <div class="main__table-text">
+                                                                               ${value.matkhau}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="main__table-btns">
+                                                                            <span href="#modal-delete" style="cursor:pointer" onclick="ConfirmDelete(${value.mataikhoan})" id="DeleteBtn" class="main__table-btn main__table-btn--delete open-modal">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z" /></svg>
+                                                                                </span>
 
-                                                        </div>
-                                                    </td>
+                                                                                </div>
+                                                                            </td>
 
-                                                </tr>`;
+                                                                        </tr>`;
 
                     })
                     $("#ListUser").html(result);
+                    initModals();
+
 
                 },
                 error: function (err) {
@@ -192,25 +221,30 @@
             })
         }
         getUser();
+        // Modal xoa
         function ConfirmDelete(id) {
-
-                console.log(id)
-                //$.ajax({
-                //    url: 'https://localhost:7053/api/User/' + id,
-                //    method: "DELETE",
-                //    contentType: 'json',
-                //    dataType: 'json',
-                //    error: function (res) {
-                //        alert("xóa ko thành công");
-                //    },
-                //    success: function (res) {
-                //        alert("xóa thành công");
-                //        loaddata();
-                //        GetAllCustomers();
-                //    },
-                //    fail: function (res) { }
-                //});
+            idDelete = id;
         }
+        // Xác nhận xóa
+        $('#YesDelete').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: url + `/${idDelete}`,
+                headers: Header,
+                method: "DELETE",
+                success: function (data) {
+                    getUser();
+                    alert("Bạn đã xóa thành công")
+                },
+                error: function (err) {
+                    alert("Thất bại");
+                    console.log(err);
+                    if (err.status == 401) {
+                        window.location = "/Home/Login";
+                    }
+                }
+            })
+        })
         // Pagination
         $("#BtnNextPage").click(function (e) {
             e.preventDefault();
