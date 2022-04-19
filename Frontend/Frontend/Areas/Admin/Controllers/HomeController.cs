@@ -49,6 +49,7 @@ namespace Frontend.Areas.Admin.Controllers
         {
             return View();
         }
+
         public ActionResult DetailCategory()
         {
             return View();
@@ -57,9 +58,12 @@ namespace Frontend.Areas.Admin.Controllers
         {
             return View();
         }
+
+
         public ActionResult Login()
         {
             return View();
         }
+
     }
 }
