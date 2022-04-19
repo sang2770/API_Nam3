@@ -128,6 +128,7 @@
         initModals();
         var str1 = "";
         let idDelete = 0;
+        let userName = "";
         let pagination = {
             totalCount: 7,
             pageSize: 2,
@@ -197,7 +198,7 @@
                                                                         </td>
                                                                         <td>
                                                                             <div class="main__table-btns">
-                                                                            <span href="#modal-delete" style="cursor:pointer" onclick="ConfirmDelete(${value.mataikhoan})" id="DeleteBtn" class="main__table-btn main__table-btn--delete open-modal">
+                                                                            <span href="#modal-delete" style="cursor:pointer" onclick="ConfirmDelete(${value.mataikhoan}, '${value.tendangnhap}')" id="DeleteBtn" class="main__table-btn main__table-btn--delete open-modal">
                                                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z" /></svg>
                                                                                 </span>
 
@@ -222,14 +223,17 @@
         }
         getUser();
         // Modal xoa
-        function ConfirmDelete(id) {
+        function ConfirmDelete(id, TenDangNhap) {
+            console.log(TenDangNhap);
             idDelete = id;
+            userName = TenDangNhap;
         }
         // Xác nhận xóa
         $('#YesDelete').click(function (e) {
+            console.log(`/${idDelete}?UserName=${userName}`);
             e.preventDefault();
             $.ajax({
-                url: url + `/${idDelete}`,
+                url: url + `/${idDelete}?UserName=${userName}`,
                 headers: Header,
                 method: "DELETE",
                 success: function (data) {

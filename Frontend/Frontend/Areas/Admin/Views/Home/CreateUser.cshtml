@@ -41,6 +41,9 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <p class="text-danger" id="HelpText">  </p>
+                            </div>
                         </div>
 
                         <div class="col-12">
@@ -88,10 +91,12 @@
                     success: function (data) {
                         alert("Bạn đã tạo tài khoản thành công");
                         e.target.reset();
+                        $("#HelpText").html("");
+
                     },
                     error: function (err) {
-                        console.log(err);
-                        alert("Thất bại");
+                        console.log(err.responseJSON.message);
+                        $("#HelpText").html(err.responseJSON.message);
                     }
                 })
                 return true;

@@ -84,9 +84,9 @@
                     console.log(data);
                 },
                 error: function (err) {
-                    $("#HelpText").html("Bạn cần nhập dữ liệu hợp lệ");
+                    $("#HelpText").html(err.responseJSON.message);
                     console.log(err);
-                    alert("Thất bại");
+                    
                 }
             })
             return true;

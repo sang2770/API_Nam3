@@ -13,7 +13,7 @@ using BTL_APIMOVIE.Auth;
 namespace BTL_APIMOVIE.Controllers
 {
     [Route("api/[controller]")]
-    //[Authorize(Roles = Role.Admin)]
+    [Authorize(Roles = Role.Admin)]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -121,19 +121,25 @@ namespace BTL_APIMOVIE.Controllers
 
         // DELETE: api/User/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTbNguoidung(int id)
+        public async Task<IActionResult> DeleteTbNguoidung(int id, string UserName)
         {
             var tbNguoidung = await _context.TbNguoidungs.FindAsync(id);
-            if (tbNguoidung == null)
+            var tK=await _context.Users.Where(n=>n.UserName==UserName).FirstOrDefaultAsync();
+            if (tbNguoidung == null || tK ==null )
             {
                 return NotFound();
             }
             _context.TbNguoidungs.Remove(tbNguoidung);
+            _context.Users.Remove(tK);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
-
+        [HttpGet("/GetUser")]
+        public ActionResult GetUser()
+        {
+            return Ok(_context.Users.ToList());
+        }
         private bool TbNguoidungExists(int id)
         {
             return _context.TbNguoidungs.Any(e => e.Mataikhoan == id);
