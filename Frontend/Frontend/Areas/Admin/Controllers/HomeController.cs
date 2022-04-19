@@ -37,13 +37,33 @@ namespace Frontend.Areas.Admin.Controllers
         {
             return View();
         }
+        public ActionResult DetailCountry()
+        {
+            return View();
+        }
+        public ActionResult CreateCountry()
+        {
+            return View();
+        }
         public ActionResult ListCategory()
         {
             return View();
         }
+<<<<<<< HEAD
+        public ActionResult DetailCategory()
+        {
+            return View();
+        }
+        public ActionResult CreateCategory()
+        {
+            return View();
+        }
+
+=======
         public ActionResult Login()
         {
             return View();
         }
+>>>>>>> 0c110362f0592012dd8bb762b059635b78317b3f
     }
 }

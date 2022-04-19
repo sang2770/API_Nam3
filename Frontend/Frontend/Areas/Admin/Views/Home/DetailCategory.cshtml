@@ -1,0 +1,166 @@
+﻿
+@{
+    ViewBag.Title = "DetailCategory";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <style>
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        h1, label {
+            color: DodgerBlue;
+        }
+
+        input[type=text], input[type=password] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            width: 100%;
+            resize: vertical;
+            padding: 15px;
+            border-radius: 15px;
+            border: 0;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+        }
+
+            input[type=text]:focus, input[type=password]:focus {
+                outline: none;
+            }
+
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 10px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+            button:hover {
+                opacity: 1;
+            }
+
+        .cancelbtn {
+            background-color: #f44336;
+        }
+
+        .signupbtn {
+            float: left;
+            width: 100%;
+            border-radius: 15px;
+            border: 0;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            padding: 16px;
+        }
+
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <form action="/Admin/Home/ListCategory">
+            <div class="container">
+                <h1>Form Thông Tin Thể loại</h1>
+
+                <hr>
+                <label for="email"><b>Mã Thể Loại</b></label>
+                <input id="txtMTL" type="text" class="form-control" name="MaTL"
+                       placeholder="Mã Thể Loại" />
+
+                <label for="psw"><b>Tên Thể Loại</b></label>
+                <input id="txtTTL" type="text" class="form-control" name="TenTL" placeholder="Tên Thể Loại" />
+
+
+                <div class="clearfix">
+                    <button type="submit" class="signupbtn" onclick=UpdateCategory()>Update</button>
+                    <button class="signupbtn" style="background-color:dodgerblue">Back</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</body>
+@section scripts{
+    <script>
+        const url = "https://localhost:7053/api";
+        let id = location.href.split("/");
+        id = id[id.length - 1];
+
+
+        $('document').ready(function () {
+
+            if (/\d/.test(id)) {
+                $.ajax({
+                    url: 'https://localhost:7053/api/Category/' + id,
+                    method: "GET",
+                    contentType: "json",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log("Success");
+
+                        $("#txtMTL").val(data.maloaiphim);
+                        $("#txtTTL").val(data.tenloaiphim);
+
+
+
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            }
+
+        })
+
+        function UpdateCategory() {
+
+            var formdata = {
+                "maloaiphim": $("#txtMTL").val(),
+                "tenloaiphim": $("#txtTTL").val(),
+                "tbPhimLoaiPhims": []
+            };
+            $.ajax({
+                url: 'https://localhost:7053/api/Category/' + $("#txtMTL").val(),
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(formdata),
+                dataType: 'json',
+                error: function (response) {
+                    alert("Sửa không thành công");
+                },
+                success: function (country) {
+                    alert("Sửa thành công");
+                    loaddata(); //Gọi đến hàm lấy dữ liệu lên bảng
+                }
+            });
+        }
+
+    </script>
+}
+

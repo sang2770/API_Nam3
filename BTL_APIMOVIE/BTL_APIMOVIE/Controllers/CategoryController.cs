@@ -40,6 +40,7 @@ namespace BTL_APIMOVIE.Controllers
 
             return tbLoaiphim;
         }
+        
 
         // PUT: api/Category/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -91,6 +92,11 @@ namespace BTL_APIMOVIE.Controllers
             if (tbLoaiphim == null)
             {
                 return NotFound();
+            }
+            List<TbPhimLoaiPhim> tbPhimLoaiPhims = _context.TbPhimLoaiPhims.Where(n => n.Maloaiphim == id).ToList();
+            foreach (TbPhimLoaiPhim item in tbPhimLoaiPhims)
+            {
+                _context.TbPhimLoaiPhims.Remove(item);
             }
 
             _context.TbLoaiphims.Remove(tbLoaiphim);
