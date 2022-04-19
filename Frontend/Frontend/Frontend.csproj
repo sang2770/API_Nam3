@@ -193,12 +193,10 @@
     <Content Include="Areas\Admin\Views\Home\DetailMovie.cshtml" />
     <Content Include="Areas\Admin\Views\Home\ListCountry.cshtml" />
     <Content Include="Areas\Admin\Views\Home\ListCategory.cshtml" />
-<<<<<<< HEAD
     <Content Include="Areas\Admin\Views\Home\DetailCountry.cshtml" />
     <Content Include="Areas\Admin\Views\Home\CreateCountry.cshtml" />
     <Content Include="Areas\Admin\Views\Home\DetailCategory.cshtml" />
     <Content Include="Areas\Admin\Views\Home\CreateCategory.cshtml" />
-=======
     <Content Include="Areas\Admin\Views\Home\Login.cshtml" />
     <Content Include="Areas\Admin\Views\Home\CreateUser.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />

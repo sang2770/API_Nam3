@@ -128,7 +128,6 @@ namespace BTL_APIMOVIE.Controllers
             {
                 return NotFound();
             }
-
             _context.TbNguoidungs.Remove(tbNguoidung);
             await _context.SaveChangesAsync();
 
