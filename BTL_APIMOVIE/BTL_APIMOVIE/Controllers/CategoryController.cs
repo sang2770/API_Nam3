@@ -20,6 +20,12 @@ namespace BTL_APIMOVIE.Controllers
         {
             _context = new APIMOVIESContext();
         }
+        [HttpGet("All")]
+        public ActionResult GetTbLoaiphim()
+        {
+            var tbloai = _context.TbLoaiphims.ToList();
+            return Ok(tbloai);
+        }
         // GET: api/Category
         [HttpGet]
         public ActionResult GetTbLoaiphims(string name, int pageNumber, int pageSize)
@@ -73,7 +79,16 @@ namespace BTL_APIMOVIE.Controllers
 
             return tbLoaiphim;
         }
-        
+        [HttpGet("GetTbLoaiphimByMovie/{id}")]
+        public ActionResult GetTbLoaiphimByMovie(int id)
+        {
+            var query = from category in _context.TbLoaiphims
+                        join phim_loaiphim in _context.TbPhimLoaiPhims on category.Maloaiphim equals phim_loaiphim.Maloaiphim
+                        where phim_loaiphim.Maphim == id
+                        select category;
+            return Ok(query);
+        }
+
 
         // PUT: api/Category/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

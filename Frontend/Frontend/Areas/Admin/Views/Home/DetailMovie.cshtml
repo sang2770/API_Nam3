@@ -9,7 +9,7 @@
         <!-- main title -->
         <div class="col-12">
             <div class="main__title">
-                <h2>Thêm Phim Mới</h2>
+                <h2>Thông Tin Phim</h2>
             </div>
         </div>
         <!-- end main title -->
@@ -20,7 +20,7 @@
                     <div class="col-12 col-md-5 form__cover">
                         <div class="row">
                             <div class="col-12 col-sm-6 col-md-12">
-                                <div class="form__img">
+                                <div class="form__img" >
                                     <label for="form__img-upload">Upload cover (190 x 270)</label>
                                     <input id="form__img-upload" name="form__img-upload" type="file" accept=".png, .jpg, .jpeg">
                                     <img id="form__img" src="#" alt=" ">
@@ -76,12 +76,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12">
-                                <div class="form__gallery">
-                                    <label id="gallery1" for="form__gallery-upload">Upload photos</label>
-                                    <input data-name="#gallery1" id="form__gallery-upload" name="gallery" class="form__gallery-upload" type="file" accept=".png, .jpg, .jpeg" multiple>
-                                </div>
-                            </div>
+                           
                         </div>
                     </div>
 
@@ -89,16 +84,11 @@
 
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-12 col-lg-6">
-                                <div class="form__video">
-                                    <label id="movie1" for="form__video-upload">Upload video</label>
-                                    <input data-name="#movie1" id="form__video-upload" name="movie" class="form__video-upload" type="file" accept="video/mp4,video/x-m4v,video/*">
-                                </div>
-                            </div>
+                            
 
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-lg-12">
                                 <div class="form__group form__group--link">
-                                    <input id="Link" type="text" class="form__input" placeholder="or add a link">
+                                    <input id="Link" type="text" class="form__input" placeholder=" add a link">
                                 </div>
                             </div>
 
@@ -120,10 +110,11 @@
         id = id[id.length - 1];
         var strCategory = "";
         var strCountry = "";
-        var quocgia = "", theloai = "";
-        
+        var quocgia = [];
+        var theloai = [];
+
         $.ajax({
-            url: 'https://localhost:7053/api/Category',
+            url: 'https://localhost:7053/api/Category/GetTbLoaiphimByMovie/'+id,
             method: "GET",
             contentType: "json",
             dataType: "json",
@@ -131,7 +122,53 @@
                 console.log("Success");
 
                 $.each(data, function (key, value) {
-                    strCategory += `<option value="${value.tenloaiphim}">${value.tenloaiphim}</option>`;
+                    theloai.push(value.tenloaiphim);
+                })
+
+                
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+        $.ajax({
+            url: 'https://localhost:7053/api/Countrys/GetTbquocgiaByMovie/' + id,
+            method: "GET",
+            contentType: "json",
+            dataType: "json",
+            success: function (data) {
+                console.log("Success");
+
+                $.each(data, function (key, value) {
+                    quocgia.push(value.tenquocgia);
+                })
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
+        
+        $.ajax({
+            url: 'https://localhost:7053/api/Category/All',
+            method: "GET",
+            contentType: "json",
+            dataType: "json",
+            success: function (data) {
+                console.log("Success");
+
+                $.each(data, function (key, value) {
+                    var d = 0;
+                    for (var i = 0; i < theloai.length; i++){
+                    if (theloai[i] == value.tenloaiphim) {
+                        strCategory += `<option value="${value.tenloaiphim}" selected>${value.tenloaiphim}</option>`;
+                        d = 1;
+                    }
+                    
+                    }
+                    if (d == 0) {
+                        strCategory += `<option value="${value.tenloaiphim}">${value.tenloaiphim}</option>`;
+                    }
+                   
                 })
 
                 $("#genre").html(strCategory);
@@ -143,7 +180,7 @@
             }
         })
         $.ajax({
-            url: 'https://localhost:7053/api/Countrys',
+            url: 'https://localhost:7053/api/Countrys/All',
             method: "GET",
             contentType: "json",
             dataType: "json",
@@ -151,7 +188,18 @@
                 console.log("Success");
 
                 $.each(data, function (key, value) {
-                    strCountry += `<option value="${value.tenquocgia}">${value.tenquocgia}</option>`;
+                    var d = 0;
+                    for (var i = 0; i < quocgia.length; i++) {
+                        if (quocgia[i] == value.tenquocgia) {
+                            strCountry += `<option value="${value.tenquocgia}" selected>${value.tenquocgia}</option>`;
+                            d = 1;
+                        }
+
+                    }
+                    if (d == 0) {
+                        strCountry += `<option value="${value.tenquocgia}" >${value.tenquocgia}</option>`;
+                    }
+                    
                 })
 
                 $("#country").html(strCountry);
@@ -177,9 +225,9 @@
                     $("#Time").val(data.thoiluong);
                     $("#NgonNgu").val(data.ngonngu);
                     $("#Link").val(data.duongdan);
+                    $("#form__img").attr('src', data.anh);
+                    
                    
-
-
                 },
                 error: function (err) {
                     console.log(err);
