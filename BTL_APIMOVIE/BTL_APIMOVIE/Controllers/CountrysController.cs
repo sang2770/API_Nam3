@@ -23,6 +23,21 @@ namespace BTL_APIMOVIE.Controllers
         {
             _context = new APIMOVIESContext();
         }
+        [HttpGet("All")]
+        public ActionResult GetTbQuocGia()
+        {
+            var tbcountry = _context.TbQuocgia.ToList();
+            return Ok(tbcountry);
+        }
+        [HttpGet("GetTbquocgiaByMovie/{id}")]
+        public ActionResult GetTbquocgiaByMovie(int id)
+        {
+            var query = from country in _context.TbQuocgia
+                        join phim_quocgia in _context.TbPhimQuocgia on country.Maquocgia equals phim_quocgia.Maquocgia
+                        where phim_quocgia.Maphim == id
+                        select country;
+            return Ok(query);
+        }
         // GET: api/Category
         [HttpGet]
         public ActionResult GetTbQuocGia(string name, int pageNumber, int pageSize)

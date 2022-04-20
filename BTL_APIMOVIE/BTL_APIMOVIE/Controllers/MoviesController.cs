@@ -18,10 +18,12 @@ namespace BTL_APIMOVIE.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly APIMOVIESContext _context;
+        public static IWebHostEnvironment _webHostEnvironment;
 
-        public MoviesController()
+        public MoviesController(IWebHostEnvironment webHostEnvironment)
         {
             _context = new APIMOVIESContext();
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: api/Movies
@@ -85,7 +87,7 @@ namespace BTL_APIMOVIE.Controllers
         [HttpGet("NameMovie/{name}")]
         public async Task<ActionResult<IEnumerable<TbPhim>>> GetTbPhimByName(string name)
         {
-            var tbPhim = await _context.TbPhims.Where(n=>n.Tenphim.Contains(name)).ToListAsync();
+            var tbPhim = await _context.TbPhims.Where(n => n.Tenphim.Contains(name)).ToListAsync();
 
             if (tbPhim == null)
             {
@@ -104,11 +106,11 @@ namespace BTL_APIMOVIE.Controllers
                          join theloai in _context.TbLoaiphims on theloai_phim.Maloaiphim equals theloai.Maloaiphim
                          where theloai.Tenloaiphim.Equals(category)
                          select movie).ToList();
-            foreach(var item in query)
+            foreach (var item in query)
             {
                 tbPhims.Add(item);
             }
-            return  tbPhims;
+            return tbPhims;
         }
         //tìm theo country
         [HttpGet("MovieByCountry/{country}")]
@@ -164,11 +166,43 @@ namespace BTL_APIMOVIE.Controllers
         [HttpPost]
         public async Task<ActionResult<TbPhim>> PostTbPhim(TbPhim tbPhim)
         {
+            string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
+            
+            
             _context.TbPhims.Add(tbPhim);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTbPhim", new { id = tbPhim.Maphim }, tbPhim);
         }
+       /* [HttpPost]
+        public string Post([FromForm] FileUpload objectfile)
+        {
+            try
+            {
+                if (objectfile.files.Length > 0)
+                {
+                    string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    using (FileStream fileStream = System.IO.File.Create(path + objectfile.files.FileName))
+                    {
+                        objectfile.files.CopyTo(fileStream);
+                        fileStream.Flush();
+                        return "Uploaded";
+                    }
+                }
+                else
+                {
+                    return "Not Upload";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }*/
         [Authorize(Roles = Role.Admin)]
         // DELETE: api/Movies/5
         [HttpDelete("{id}")]
