@@ -164,11 +164,34 @@ namespace BTL_APIMOVIE.Controllers
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TbPhim>> PostTbPhim(TbPhim tbPhim)
+        public async Task<ActionResult<TbPhim>> PostTbPhim(TbPhim tbPhim, [FromForm] FileUpload objectfile)
         {
-            string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
-            
-            
+            try
+            {
+                if (objectfile.files.Length > 0)
+                {
+                    string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    using (FileStream fileStream = System.IO.File.Create(path + objectfile.files.FileName))
+                    {
+                        objectfile.files.CopyTo(fileStream);
+                        fileStream.Flush();
+                        tbPhim.Anh = path + objectfile.files.FileName;
+                    }
+                }
+                else
+                {
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
             _context.TbPhims.Add(tbPhim);
             await _context.SaveChangesAsync();
 
