@@ -160,7 +160,7 @@ namespace BTL_APIMOVIE.Controllers
 
             return NoContent();
         }
-        //[Authorize(Roles = Role.Admin)]
+        [Authorize(Roles = Role.Admin)]
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -197,35 +197,7 @@ namespace BTL_APIMOVIE.Controllers
 
             return CreatedAtAction("GetTbPhim", new { id = tbPhim.Maphim }, tbPhim);
         }
-       /* [HttpPost]
-        public string Post([FromForm] FileUpload objectfile)
-        {
-            try
-            {
-                if (objectfile.files.Length > 0)
-                {
-                    string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    using (FileStream fileStream = System.IO.File.Create(path + objectfile.files.FileName))
-                    {
-                        objectfile.files.CopyTo(fileStream);
-                        fileStream.Flush();
-                        return "Uploaded";
-                    }
-                }
-                else
-                {
-                    return "Not Upload";
-                }
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-        }*/
+      
         [Authorize(Roles = Role.Admin)]
         // DELETE: api/Movies/5
         [HttpDelete("{id}")]
