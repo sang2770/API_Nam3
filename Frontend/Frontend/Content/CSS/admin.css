@@ -1994,8 +1994,7 @@ body::-webkit-scrollbar-thumb {
   border-radius: 16px;
   padding: 30px 20px;
   position: relative;
-  width: 100%;
-  max-width: 400px;
+  width: 350px;
   border: 1px solid #151f30;
 }
 .sign__form--profile {

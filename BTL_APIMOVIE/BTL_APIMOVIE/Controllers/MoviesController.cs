@@ -160,17 +160,17 @@ namespace BTL_APIMOVIE.Controllers
 
             return NoContent();
         }
-        [Authorize(Roles = Role.Admin)]
+        //[Authorize(Roles = Role.Admin)]
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TbPhim>> PostTbPhim(TbPhim tbPhim, [FromForm] FileUpload objectfile)
+        public async Task<ActionResult<TbPhim>> PostTbPhim([FromForm] TbPhim tbPhim, [FromForm] FileUpload objectfile)
         {
             try
             {
                 if (objectfile.files.Length > 0)
                 {
-                    string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
+                    string path = _webHostEnvironment.WebRootPath + "\\Image\\";
                     if (!Directory.Exists(path))
                     {
                         Directory.CreateDirectory(path);
@@ -179,7 +179,7 @@ namespace BTL_APIMOVIE.Controllers
                     {
                         objectfile.files.CopyTo(fileStream);
                         fileStream.Flush();
-                        tbPhim.Anh = path + objectfile.files.FileName;
+                        tbPhim.Anh = "https://localhost:7053/Image/" + objectfile.files.FileName;
                     }
                 }
                 else

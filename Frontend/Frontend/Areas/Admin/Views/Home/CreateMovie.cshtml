@@ -15,14 +15,14 @@
         <!-- end main title -->
         <!-- form -->
         <div class="col-12">
-            <form action="#" class="form">
+            <form id="CreateMovies" action="#" class="form">
                 <div class="row">
-                    <div class="col-12 col-md-5 form__cover">
+                    <div class="col-12 col-md-12 form__cover">
                         <div class="row">
-                            <div class="col-12 col-sm-6 col-md-12">
+                            <div class="col-12 col-sm-12 col-md-12">
                                 <div class="form__img">
-                                    <label for="form__img-upload">Upload cover (190 x 270)</label>
-                                    <input id="form__img-upload" name="form__img-upload" type="file" accept=".png, .jpg, .jpeg">
+                                    <label for="form__img-upload">Ảnh</label>
+                                    <input id="form__img-upload" name="files" type="file" accept=".png, .jpg, .jpeg">
                                     <img id="form__img" src="#" alt=" ">
                                 </div>
                             </div>
@@ -33,29 +33,34 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" placeholder="Title">
+                                    <input type="text" class="form__input" name="Tenphim" placeholder="Tên phim">
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <div class="form__group">
-                                    <textarea id="text" name="text" class="form__textarea" placeholder="Description"></textarea>
+                                    <textarea id="text" name="Motaphim" class="form__textarea" placeholder="Mô tả phim"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" placeholder="Release year">
+                                    <input type="text" name="Nam" class="form__input" placeholder="Năm">
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input id="NgonNgu" type="text" class="form__input" placeholder="language">
+                                    <input name="Ngonngu" id="NgonNgu" type="text" class="form__input" placeholder="Ngôn ngữ">
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" placeholder="Running timed in minutes">
+                                    <input name="Danhgiaphim"  type="text" class="form__input" placeholder="Đánh giá phim">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="form__group">
+                                    <input type="text" name="Thoiluong" class="form__input" placeholder="Thời lượng">
                                 </div>
                             </div>
 
@@ -75,7 +80,7 @@
                                 </div>
                             </div>
 
-                           
+
                         </div>
                     </div>
 
@@ -83,16 +88,14 @@
 
                     <div class="col-12">
                         <div class="row">
-                            
-
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-lg-12">
                                 <div class="form__group form__group--link">
-                                    <input type="text" class="form__input" placeholder="or add a link">
+                                    <input type="text" class="form__input" name="Duongdan" placeholder="Đường dẫn phim">
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <button type="button" class="form__btn">publish</button>
+                                <button type="submit" class="form__btn">Thêm phim</button>
                             </div>
                         </div>
                     </div>
@@ -107,10 +110,14 @@
         
         var strCategory = "";
         var strCountry = "";
-        
+        const Header = {
+            "Authorization": "Bearer " + localStorage.getItem("tokenAdmin"),
+            "Content-Type": "application/json"
+        }
         $.ajax({
             url: 'https://localhost:7053/api/Category/All',
             method: "GET",
+            headers: Header,
             contentType: "json",
             dataType: "json",
             success: function (data) {
@@ -132,6 +139,7 @@
             url: 'https://localhost:7053/api/Countrys/All',
             method: "GET",
             contentType: "json",
+            headers: Header,
             dataType: "json",
             success: function (data) {
                 console.log("Success");
@@ -148,7 +156,33 @@
                 console.log(err);
             }
         })
-                
+
+        $("#CreateMovies").submit(function (e) {
+            e.preventDefault();
+            var input = new FormData(e.target);
+            console.log(input);
+            $.ajax({
+                url: "https://localhost:7053/api/Movies",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("tokenAdmin")
+                },
+                data: input,
+                contentType: false,
+                processData: false,
+                method: "POST",
+                success: function (data) {
+                    alert("Thành công")
+                    e.target.reset();
+                },
+                error: function (err) {
+                    alert("Thất bại");
+                    console.log(err);
+                    if (err.status == 401) {
+                        window.location = "/Admin/Home/Login";
+                    }
+                }
+            })
+        })
           
     </script>
 
