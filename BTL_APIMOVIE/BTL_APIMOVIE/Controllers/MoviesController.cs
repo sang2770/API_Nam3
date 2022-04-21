@@ -132,6 +132,7 @@ namespace BTL_APIMOVIE.Controllers
         //[Authorize(Roles = Role.Admin)]
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+       
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTbPhim(int id, [FromForm] TbPhim tbPhim, [FromForm] FileUpload objectfile)
         {
@@ -160,6 +161,35 @@ namespace BTL_APIMOVIE.Controllers
             {
                 throw;
             }
+            _context.Entry(tbPhim).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TbPhimExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok();
+        }
+        [HttpPut("PutTbPhim/{id}")]
+        public async Task<IActionResult> PutTbPhim(int id, [FromForm] TbPhim tbPhim)
+        {
+            if (id != tbPhim.Maphim)
+            {
+                return BadRequest();
+            }
+          
+            
             _context.Entry(tbPhim).State = EntityState.Modified;
 
             try
