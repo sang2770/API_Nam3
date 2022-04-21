@@ -55,7 +55,7 @@
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input name="Danhgiaphim"  type="text" class="form__input" placeholder="Đánh giá phim">
+                                    <input name="Danhgiaphim" type="text" class="form__input" placeholder="Đánh giá phim">
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
@@ -63,9 +63,6 @@
                                     <input type="text" name="Thoiluong" class="form__input" placeholder="Thời lượng">
                                 </div>
                             </div>
-
-
-
                             <div class="col-12 col-lg-6">
                                 <div class="form__group">
                                     <select class="js-example-basic-multiple" id="country" multiple="multiple">
@@ -84,7 +81,7 @@
                         </div>
                     </div>
 
-                  
+
 
                     <div class="col-12">
                         <div class="row">
@@ -102,12 +99,13 @@
                 </div>
             </form>
         </div>
+      
         <!-- end form -->
     </div>
 </div>
 @section scripts{
     <script>
-        
+       
         var strCategory = "";
         var strCountry = "";
         const Header = {
@@ -124,7 +122,7 @@
                 console.log("Success");
 
                 $.each(data, function (key, value) {
-                    strCategory += `<option value="${value.tenloaiphim}">${value.tenloaiphim}</option>`;
+                    strCategory += `<option value="${value.maloaiphim}">${value.tenloaiphim}</option>`;
                 })
                
                 $("#genre").html(strCategory);
@@ -145,7 +143,7 @@
                 console.log("Success");
 
                 $.each(data, function (key, value) {
-                    strCountry += `<option value="${value.tenquocgia}">${value.tenquocgia}</option>`;
+                    strCountry += `<option value="${value.maquocgia}">${value.tenquocgia}</option>`;
                 })
               
                 $("#country").html(strCountry);
@@ -156,8 +154,9 @@
                 console.log(err);
             }
         })
-
+        
         $("#CreateMovies").submit(function (e) {
+            var idmovie = 0;
             e.preventDefault();
             var input = new FormData(e.target);
             console.log(input);
@@ -172,17 +171,74 @@
                 method: "POST",
                 success: function (data) {
                     alert("Thành công")
+                    
+                    add_category_country(data.maphim)
+                  
                     e.target.reset();
                 },
                 error: function (err) {
                     alert("Thất bại");
+                    
                     console.log(err);
                     if (err.status == 401) {
                         window.location = "/Admin/Home/Login";
                     }
                 }
             })
+            
+            
         })
+        
+        function add_category_country(idmovie) {
+            
+            if (idmovie != 0) {
+                var n = $("#genre").children("option").length;
+                
+                for (var i = 0; i < n; i++) {
+                    
+                    if ($("#genre").children("option")[i].selected) {
+                       
+                        $.ajax({
+                            url: 'https://localhost:7053/api/PhimLoaiPhim?Maphim=' + idmovie + '&Maloaiphim=' + $("#genre").children("option")[i].value,
+                            method: 'POST',
+                            Header: Header,
+                            contentType: 'application/json',
+                           
+                            dataType: 'json',
+                            error: function (response) {
+                                alert("Thêm mới không thành công");
+                            },
+                            success: function (reponse) {
+                                alert("Thêm mới thành công");
+                               
+                            }
+                        });
+                    }
+                }
+                var m = $("#country").children("option").length;
+                for (var i = 0; i < m; i++) {
+                    
+                    if ($("#country").children("option")[i].selected) {
+                        
+                        $.ajax({
+                            url: 'https://localhost:7053/api/PhimQuocGia?Maphim=' + idmovie + '&Maquocgia=' + $("#country").children("option")[i].value,
+                            method: 'POST',
+                            Header: Header,
+                            contentType: 'application/json',
+                            
+                            dataType: 'json',
+                            error: function (response) {
+                                alert("Thêm mới không thành công");
+                            },
+                            success: function (reponse) {
+                                alert("Thêm mới thành công");
+                                
+                            }
+                        });
+                    }
+                }
+            }
+        }
           
     </script>
 

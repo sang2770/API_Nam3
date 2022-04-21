@@ -48,7 +48,10 @@
 </div>
 @section scripts{
 <script>
-
+    const Header = {
+        "Authorization": "Bearer " + localStorage.getItem("tokenAdmin"),
+        "Content-Type": "application/json"
+    }
     function insertCategory() {
         var formdata = {
             "maloaiphim": 0,
@@ -58,6 +61,7 @@
         $.ajax({
             url: 'https://localhost:7053/api/Category',
             method: 'POST',
+            Header: Header,
             contentType: 'application/json',
             data: JSON.stringify(formdata),
             dataType: 'json',
