@@ -135,7 +135,6 @@ namespace BTL_APIMOVIE.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTbPhim(int id, [FromForm] TbPhim tbPhim, [FromForm] FileUpload objectfile)
         {
-            tbPhim.Maphim = id;
             try
             {
                 if (objectfile.files.Length > 0)
@@ -154,7 +153,7 @@ namespace BTL_APIMOVIE.Controllers
                 }
                 else
                 {
-
+                    tbPhim.Anh = "";
                 }
             }
             catch (Exception ex)
@@ -179,7 +178,7 @@ namespace BTL_APIMOVIE.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
         [Authorize(Roles = Role.Admin)]
         // POST: api/Movies

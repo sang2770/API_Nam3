@@ -15,7 +15,7 @@
         <!-- end main title -->
         <!-- form -->
         <div class="col-12">
-            <form id="UpdateMovies" action="#" class="form">
+            <form id="UpdateMovies" class="form">
                 <div class="row">
                     <div class="col-12 col-md-5 form__cover">
                         <div class="row">
@@ -122,109 +122,106 @@
             "Content-Type": "application/json"
         }
         
-        $.ajax({
-            url: 'https://localhost:7053/api/Category/GetTbLoaiphimByMovie/'+id,
-            method: "GET",
-            headers: Header,
-            contentType: "json",
-            dataType: "json",
-            success: function (data) {
-                console.log("Success");
+        //$.ajax({
+        //    url: 'https://localhost:7053/api/Category/GetTbLoaiphimByMovie/'+id,
+        //    method: "GET",
+        //    headers: Header,
+        //    contentType: "json",
+        //    dataType: "json",
+        //    success: function (data) {
+        //        console.log(data);
+        //        $.each(data, function (key, value) {
+        //            theloai.push(value.tenloaiphim);
+        //            idtheloai.push(value.maloaiphim);
+        //        })  
+        //    },
+        //    error: function (err) {
+        //        console.log(err);
+        //    }
+        //})
+        //$.ajax({
+        //    url: 'https://localhost:7053/api/Countrys/GetTbquocgiaByMovie/' + id,
+        //    method: "GET",
+        //    headers: Header,
+        //    contentType: "json",
+        //    dataType: "json",
+        //    success: function (data) {
+        //        console.log("Success");
 
-                $.each(data, function (key, value) {
-                    theloai.push(value.tenloaiphim);
-                    idtheloai.push(value.maloaiphim);
-                })
-
-                
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        })
-        $.ajax({
-            url: 'https://localhost:7053/api/Countrys/GetTbquocgiaByMovie/' + id,
-            method: "GET",
-            headers: Header,
-            contentType: "json",
-            dataType: "json",
-            success: function (data) {
-                console.log("Success");
-
-                $.each(data, function (key, value) {
-                    quocgia.push(value.tenquocgia);
-                    idquocgia.push(value.maquocgia);
-                })
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        })
+        //        $.each(data, function (key, value) {
+        //            quocgia.push(value.tenquocgia);
+        //            idquocgia.push(value.maquocgia);
+        //        })
+        //    },
+        //    error: function (err) {
+        //        console.log(err);
+        //    }
+        //})
         
-        $.ajax({
-            url: 'https://localhost:7053/api/Category/All',
-            method: "GET",
-            headers: Header,
-            contentType: "json",
-            dataType: "json",
-            success: function (data) {
-                console.log("Success");
+        //$.ajax({
+        //    url: 'https://localhost:7053/api/Category/All',
+        //    method: "GET",
+        //    headers: Header,
+        //    contentType: "json",
+        //    dataType: "json",
+        //    success: function (data) {
+        //        console.log("Success");
 
-                $.each(data, function (key, value) {
-                    var d = 0;
-                    for (var i = 0; i < theloai.length; i++){
-                    if (theloai[i] == value.tenloaiphim) {
-                        strCategory += `<option value="${value.maloaiphim}" selected>${value.tenloaiphim}</option>`;
-                        d = 1;
-                    }
+        //        $.each(data, function (key, value) {
+        //            var d = 0;
+        //            for (var i = 0; i < theloai.length; i++){
+        //            if (theloai[i] == value.tenloaiphim) {
+        //                strCategory += `<option value="${value.maloaiphim}" selected>${value.tenloaiphim}</option>`;
+        //                d = 1;
+        //            }
                     
-                    }
-                    if (d == 0) {
-                        strCategory += `<option value="${value.maloaiphim}">${value.tenloaiphim}</option>`;
-                    }
+        //            }
+        //            if (d == 0) {
+        //                strCategory += `<option value="${value.maloaiphim}">${value.tenloaiphim}</option>`;
+        //            }
                    
-                })
+        //        })
 
-                $("#genre").html(strCategory);
+        //        $("#genre").html(strCategory);
 
 
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        })
-        $.ajax({
-            url: 'https://localhost:7053/api/Countrys/All',
-            method: "GET",
-            headers: Header,
-            contentType: "json",
-            dataType: "json",
-            success: function (data) {
-                console.log("Success");
+        //    },
+        //    error: function (err) {
+        //        console.log(err);
+        //    }
+        //})
+        //$.ajax({
+        //    url: 'https://localhost:7053/api/Countrys/All',
+        //    method: "GET",
+        //    headers: Header,
+        //    contentType: "json",
+        //    dataType: "json",
+        //    success: function (data) {
+        //        console.log("Success");
 
-                $.each(data, function (key, value) {
-                    var d = 0;
-                    for (var i = 0; i < quocgia.length; i++) {
-                        if (quocgia[i] == value.tenquocgia) {
-                            strCountry += `<option value="${value.maquocgia}" selected>${value.tenquocgia}</option>`;
-                            d = 1;
-                        }
+        //        $.each(data, function (key, value) {
+        //            var d = 0;
+        //            for (var i = 0; i < quocgia.length; i++) {
+        //                if (quocgia[i] == value.tenquocgia) {
+        //                    strCountry += `<option value="${value.maquocgia}" selected>${value.tenquocgia}</option>`;
+        //                    d = 1;
+        //                }
 
-                    }
-                    if (d == 0) {
-                        strCountry += `<option value="${value.maquocgia}" >${value.tenquocgia}</option>`;
-                    }
+        //            }
+        //            if (d == 0) {
+        //                strCountry += `<option value="${value.maquocgia}" >${value.tenquocgia}</option>`;
+        //            }
                     
-                })
+        //        })
 
-                $("#country").html(strCountry);
+        //        $("#country").html(strCountry);
 
 
-            },
-            error: function (err) {
-                console.log(err);
-            }
-        })
+        //    },
+        //    error: function (err) {
+        //        console.log(err);
+        //    }
+        //})
         if (/\d/.test(id)) {
             $.ajax({
                 url: 'https://localhost:7053/api/Movies/' + id,
@@ -234,7 +231,6 @@
                 dataType: "json",
                 success: function (data) {
                     console.log("Success");
-
                     $("#NameMovie").val(data.tenphim);
                     $("#Mota").val(data.motaphim);
                     $("#Nam").val(data.nam);
@@ -242,20 +238,19 @@
                     $("#NgonNgu").val(data.ngonngu);
                     $("#Link").val(data.duongdan);
                     $("#danhgia").val(data.danhgiaphim);
-                    $("#form__img").attr('src', data.anh);
-                    
-                   
+                    $("#form__img").attr('src', data.anh);   
                 },
                 error: function (err) {
                     console.log(err);
                 }
             })
         }
-        $("#UpdateMovies").submit(function (e) {
-            
+        $("#UpdateMovies").submit(function (e) { 
             e.preventDefault();
             var input = new FormData(e.target);
-            console.log(input);
+            input.append("Maphim", id);
+            input.append("Anh", "");
+
             $.ajax({
                 url: "https://localhost:7053/api/Movies/"+id,
                 headers: {
@@ -267,14 +262,12 @@
                 method: "PUT",
                 success: function (data) {
                     alert("Thành công");
-
                     //Update_category_country();
-
                     e.target.reset();
                 },
                 error: function (err) {
                     alert("Thất bại");
-                    
+                    console.log(err);
                     console.log(err);
                     if (err.status == 401) {
                         window.location = "/Admin/Home/Login";
