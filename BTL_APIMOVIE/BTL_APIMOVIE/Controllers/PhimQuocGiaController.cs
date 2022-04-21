@@ -54,9 +54,21 @@ namespace BTL_APIMOVIE.Controllers
         }
 
         // DELETE api/<PhimQuocGiaController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{maphim}/{maquocgia}")]
+        public async Task<IActionResult> DeleteTbPhimQuocgia(int maphim, int maquocgia)
         {
+            int id = _context.TbPhimQuocgia.Where(n => n.Maphim == maphim).Where(n => n.Maquocgia==maquocgia).FirstOrDefault().Ma;
+            var tbPhimQuocgia = await _context.TbPhimQuocgia.FindAsync(id);
+            if (tbPhimQuocgia == null)
+            {
+                return NotFound();
+            }
+
+
+            _context.TbPhimQuocgia.Remove(tbPhimQuocgia);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

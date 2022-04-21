@@ -41,7 +41,8 @@ namespace BTL_APIMOVIE.Controllers
             return tbPhimLoaiPhims;
         }
 
-        // POST: api/Category
+      
+
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<TbPhimLoaiPhim>> PostTbPhimLoaiPhims(int Ma,int Maphim,int Maloaiphim)
@@ -54,9 +55,10 @@ namespace BTL_APIMOVIE.Controllers
         }
 
         // DELETE: api/Category/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTbPhimLoaiPhims(int id)
+        [HttpDelete("{maphim}/{maloai}")]
+        public async Task<IActionResult> DeleteTbPhimLoaiPhims(int maphim,int maloai)
         {
+            int id = _context.TbPhimLoaiPhims.Where(n=>n.Maphim == maphim).Where(n=>n.Maloaiphim==maloai).FirstOrDefault().Ma;
             var tbPhimLoaiPhims = await _context.TbPhimLoaiPhims.FindAsync(id);
             if (tbPhimLoaiPhims == null)
             {

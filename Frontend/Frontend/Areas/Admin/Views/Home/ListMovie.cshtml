@@ -267,6 +267,7 @@
         // Xác nhận xóa
         $('#YesDelete').click(function (e) {
             e.preventDefault();
+           
             $.ajax({
                 url: url + `/${idDelete}`,
                 headers: Header,
@@ -274,7 +275,7 @@
                 success: function (data) {
                     getMovie();
                     alert("Bạn đã xóa thành công")
-                    initModals();
+                   
                 },
                 error: function (err) {
                     alert("Thất bại");
@@ -282,7 +283,7 @@
                     if (err.status == 401) {
                         window.location = "/Admin/Home/Login";
                     }
-                    initModals();
+                   
                 }
             })
         })

@@ -133,13 +133,34 @@ namespace BTL_APIMOVIE.Controllers
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTbPhim(int id, TbPhim tbPhim)
+        public async Task<IActionResult> PutTbPhim(int id, [FromForm] TbPhim tbPhim, [FromForm] FileUpload objectfile)
         {
-            if (id != tbPhim.Maphim)
+            tbPhim.Maphim = id;
+            try
             {
-                return BadRequest();
-            }
+                if (objectfile.files.Length > 0)
+                {
+                    string path = _webHostEnvironment.WebRootPath + "\\Image\\";
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    using (FileStream fileStream = System.IO.File.Create(path + objectfile.files.FileName))
+                    {
+                        objectfile.files.CopyTo(fileStream);
+                        fileStream.Flush();
+                        tbPhim.Anh = "https://localhost:7053/Image/" + objectfile.files.FileName;
+                    }
+                }
+                else
+                {
 
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
             _context.Entry(tbPhim).State = EntityState.Modified;
 
             try
