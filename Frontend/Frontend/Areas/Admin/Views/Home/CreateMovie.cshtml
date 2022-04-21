@@ -33,38 +33,45 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form__group">
-                                    <input type="text" class="form__input" name="Tenphim" placeholder="Tên phim">
+                                    <label for="NameMovie">Tên Phim</label>
+                                    <input type="text" class="form__input" name="Tenphim" placeholder="Tên phim" required>
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <div class="form__group">
+                                    <label for="Mota">Mô Tả Phim</label>
                                     <textarea id="text" name="Motaphim" class="form__textarea" placeholder="Mô tả phim"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="text" name="Nam" class="form__input" placeholder="Năm">
+                                    <label for="Nam" style="font-size:13px;">Năm Sản Xuất</label>
+                                    <input type="number" name="Nam" class="form__input" placeholder="Năm">
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
+                                    <label for="NgonNgu" style="font-size:13px;">Ngôn Ngữ</label>
                                     <input name="Ngonngu" id="NgonNgu" type="text" class="form__input" placeholder="Ngôn ngữ">
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input name="Danhgiaphim" type="text" class="form__input" placeholder="Đánh giá phim">
+                                    <label for="danhgia" style="font-size:13px;">Đánh Giá</label>
+                                    <input name="Danhgiaphim" type="number" class="form__input" placeholder="Đánh giá phim" min="1" max="10">
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 col-lg-3">
                                 <div class="form__group">
-                                    <input type="text" name="Thoiluong" class="form__input" placeholder="Thời lượng">
+                                    <label for="Time" style="font-size:13px;">Thời Lượng(Phút)</label>
+                                    <input type="number" name="Thoiluong" class="form__input" placeholder="Thời lượng">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form__group">
+                                    <label for="country" style="font-size:13px;">Quốc Gia</label>
                                     <select class="js-example-basic-multiple" id="country" multiple="multiple">
                                     </select>
                                 </div>
@@ -72,6 +79,7 @@
 
                             <div class="col-12 col-lg-6">
                                 <div class="form__group">
+                                    <label for="genre" style="font-size:13px;">Thể Loại</label>
                                     <select class="js-example-basic-multiple" id="genre" multiple="multiple">
                                     </select>
                                 </div>
@@ -87,6 +95,7 @@
                         <div class="row">
                             <div class="col-12 col-lg-12">
                                 <div class="form__group form__group--link">
+                                    <label for="Link">Đường Dẫn Phim</label>
                                     <input type="text" class="form__input" name="Duongdan" placeholder="Đường dẫn phim">
                                 </div>
                             </div>
