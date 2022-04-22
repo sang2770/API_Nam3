@@ -44,6 +44,7 @@
                 url: url + `/Movies/NameMovie/@ViewBag.name`,
                 headers: Header,
                 method: "GET",
+                async: false,
                 success: function (data) {
 
                     data.forEach((item, index) => {

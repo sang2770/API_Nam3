@@ -171,6 +171,7 @@
             url: url + "/Category/All",
             headers: Header,
             method: "GET",
+            async: false,
             success: function (data) {
                 let result = "<option value='All Movie'>All Movie</option>";
                 data.forEach((item, index) => {
