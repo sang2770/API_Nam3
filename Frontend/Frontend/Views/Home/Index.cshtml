@@ -62,6 +62,7 @@
         $.ajax({
             url: url + "/Movies/GetMovieByRate",
             headers: Header,
+            async: false,
             method: "GET",
             success: function (data) {
                 let result = "";
