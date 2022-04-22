@@ -37,7 +37,7 @@
                     <div class="col-12">
                         <div class="row">
                             <div class="col-12">
-                                <input type="submit" value="Create" onclick=insertCountry() class="form__btn" />
+                                <input type="submit" value="Create" onclick="insertCountry()" class="form__btn" />
                             </div>
                         </div>
                     </div>
@@ -59,6 +59,7 @@
                 "tenquocgia": $("#txtTQG").val(),
                 "tbPhimQuocgia": []
             };
+            
             $.ajax({
                 url: 'https://localhost:7053/api/Countrys',
                 method: 'POST',
