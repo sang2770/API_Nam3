@@ -7,18 +7,7 @@
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="gen-banner-movies banner-style-2">
-                    <div class="owl-carousel owl-loaded owl-drag"
-                        
-                         data-dots="false"
-                         data-nav="true"
-                         data-desk_num="1"
-                         data-lap_num="1"
-                         data-tab_num="1"
-                         data-mob_num="1"
-                         data-mob_sm="1"
-                         data-autoplay="true"
-                         data-loop="true"
-                         data-margin="0" id="ListMovieRate">
+                    <div class="owl-carousel " id="ListMovieRate">
                         
                     </div>
                 </div>
@@ -160,6 +149,14 @@
                         </div> `;
                 })
                 $("#ListMovieRate").html(result);
+                $('.owl-carousel').owlCarousel({
+                    items: 1,
+                    loop: true,
+                    margin: 10,
+                    autoplay: true,
+                    autoplayTimeout: 5000,
+                    autoplayHoverPause: false
+                });
             },
             error: function (err) {
                 console.log(err);
@@ -267,6 +264,7 @@
                         </div>`
             }
             $("#ListMovieByCategory").html(result);
+
         }
         $("#ListCategory").change(function () {
             getMovie($(this).val());
