@@ -97,6 +97,9 @@
                     error: function (err) {
                         console.log(err.responseJSON.message);
                         $("#HelpText").html(err.responseJSON.message);
+                        if (err.status == 401 || err.status == 403) {
+                            window.location = "/Admin/Home/Login";
+                        }
                     }
                 })
                 return true;

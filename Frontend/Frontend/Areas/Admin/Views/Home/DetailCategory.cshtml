@@ -74,6 +74,9 @@
                     },
                     error: function (err) {
                         console.log(err);
+                        if (err.status == 401 || err.status == 403) {
+                            window.location = "/Admin/Home/Login";
+                        }
                     }
                 })
             }
@@ -95,6 +98,9 @@
                 dataType: 'json',
                 error: function (response) {
                     alert("Sửa không thành công");
+                    if (err.status == 401 || err.status == 403) {
+                        window.location = "/Admin/Home/Login";
+                    }
                 },
                 success: function (country) {
                     alert("Sửa thành công");

@@ -204,8 +204,8 @@
                 },
                 error: function (err) {
                     console.log(err);
-                    if (err.status == 401) {
-                        window.location = "/Home/Login";
+                    if (err.status == 401 || err.status == 403) {
+                        window.location = "/Admin/Home/Login";
                     }
                 }
             })
@@ -245,7 +245,7 @@
                 error: function (err) {
                     alert("Thất bại");
                     console.log(err);
-                    if (err.status == 401) {
+                    if (err.status == 401 || err.status==403) {
                         window.location = "/Admin/Home/Login";
                     }
                 }

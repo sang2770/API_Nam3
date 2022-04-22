@@ -161,6 +161,9 @@
             },
             error: function (err) {
                 console.log(err);
+                if (err.status == 401 || err.status == 403) {
+                    window.location = "/Admin/Home/Login";
+                }
             }
         })
         
@@ -189,7 +192,7 @@
                     alert("Thất bại");
                     
                     console.log(err);
-                    if (err.status == 401) {
+                    if (err.status == 401 || err.status == 403) {
                         window.location = "/Admin/Home/Login";
                     }
                 }
@@ -216,6 +219,9 @@
                             dataType: 'json',
                             error: function (response) {
                                 alert("Thêm mới không thành công");
+                                if (err.status == 401 || err.status == 403) {
+                                    window.location = "/Admin/Home/Login";
+                                }
                             },
                             success: function (reponse) {
                                 alert("Thêm mới thành công");
@@ -238,6 +244,9 @@
                             dataType: 'json',
                             error: function (response) {
                                 alert("Thêm mới không thành công");
+                                if (err.status == 401 || err.status == 403) {
+                                    window.location = "/Admin/Home/Login";
+                                }
                             },
                             success: function (reponse) {
                                 alert("Thêm mới thành công");

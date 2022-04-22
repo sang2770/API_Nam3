@@ -68,6 +68,9 @@
                 dataType: 'json',
                 error: function (response) {
                     alert("Thêm mới không thành công");
+                    if (err.status == 401 || err.status == 403) {
+                        window.location = "/Admin/Home/Login";
+                    }
                 },
                 success: function (reponse) {
                     alert("Thêm mới thành công");
