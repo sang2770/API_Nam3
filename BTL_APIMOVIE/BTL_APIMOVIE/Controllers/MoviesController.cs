@@ -12,7 +12,7 @@ using BTL_APIMOVIE.Auth;
 
 namespace BTL_APIMOVIE.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MoviesController : ControllerBase
@@ -98,19 +98,18 @@ namespace BTL_APIMOVIE.Controllers
         }
         //tìm theo the loai
         [HttpGet("MoveByCategory/{category}")]
-        public async Task<ActionResult<IEnumerable<TbPhim>>> GetTbPhimsByCategory(string category)
+        public  ActionResult GetTbPhimsByCategory(string category)
         {
-            List<TbPhim> tbPhims = new List<TbPhim>();
-            var query = (from movie in _context.TbPhims
-                         join theloai_phim in _context.TbPhimLoaiPhims on movie.Maphim equals theloai_phim.Maphim
-                         join theloai in _context.TbLoaiphims on theloai_phim.Maloaiphim equals theloai.Maloaiphim
-                         where theloai.Tenloaiphim.Equals(category)
-                         select movie).ToList();
-            foreach (var item in query)
+            var query =_context.TbPhims.ToList();
+            if (!category.Contains("All"))
             {
-                tbPhims.Add(item);
+                query =(from movie in _context.TbPhims
+                             join theloai_phim in _context.TbPhimLoaiPhims on movie.Maphim equals theloai_phim.Maphim
+                             join theloai in _context.TbLoaiphims on theloai_phim.Maloaiphim equals theloai.Maloaiphim
+                             where theloai.Tenloaiphim.Contains(category)
+                             select movie).ToList();
             }
-            return tbPhims;
+            return Ok(query);
         }
         //tìm theo country
         [HttpGet("MovieByCountry/{country}")]
@@ -129,10 +128,10 @@ namespace BTL_APIMOVIE.Controllers
             return tbPhims;
         }
 
-        //[Authorize(Roles = Role.Admin)]
+        [Authorize(Roles = Role.Admin)]
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-       
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTbPhim(int id, [FromForm] TbPhim tbPhim, [FromForm] FileUpload objectfile)
         {
@@ -181,6 +180,7 @@ namespace BTL_APIMOVIE.Controllers
 
             return Ok();
         }
+        [Authorize(Roles = Role.Admin)]
         [HttpPut("PutTbPhim/{id}")]
         public async Task<IActionResult> PutTbPhim(int id, [FromForm] TbPhim tbPhim)
         {

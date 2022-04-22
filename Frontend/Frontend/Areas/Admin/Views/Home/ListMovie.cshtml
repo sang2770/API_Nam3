@@ -47,25 +47,25 @@
                     <table class="main__table" style="text-align:center">
                         <thead>
                             <tr>
-                                <th style="min-width:50px">
+                                <th style="text-align:left">
                                     Mã Phim
                                 </th>
-                                <th>
+                                <th style="text-align:left">
                                     Tên Phim
                                 </th>
-                                <th>
+                                <th style="text-align:left">
                                     Thời Lượng
                                 </th>
-                                <th>
+                                <th style="text-align:left">
                                     Ngôn Ngữ
                                 </th>
-                                <th>
+                                <th style="text-align:left">
                                     Năm SX
                                 </th>
-                                <th>
+                                <th style="text-align:left">
                                     Đánh Giá Phim
                                 </th>
-                                <th>Tùy Chọn</th>
+                                <th style="text-align:left">Tùy Chọn</th>
 
                             </tr>
                         </thead>
@@ -238,7 +238,7 @@
                 error: function (err) {
                     console.log(err);
                     if (err.status == 401) {
-                        window.location = "/Home/Login";
+                        window.location = "/Admin/Home/Login";
                     }
                 }
             })

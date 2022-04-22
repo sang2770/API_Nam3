@@ -170,11 +170,11 @@
             }
         })
         $.ajax({
-            url: url + "/Category",
+            url: url + "/Category/All",
             headers: Header,
             method: "GET",
             success: function (data) {
-                let result = "<option value=''>All</option>";
+                let result = "<option value='All Movie'>All Movie</option>";
                 data.forEach((item, index) => {
                     result += `<option value=${item.tenloaiphim}>${item.tenloaiphim}</option>`
                 })
@@ -195,11 +195,7 @@
         function getMovie(id) {
             number = 4;
             let Url = url;
-            if (id == "") {
-                Url += "/Movies"
-            } else {
-                Url += "/Movies/MoveByCategory/" + id;
-            }
+            Url += "/Movies/MoveByCategory/" + id;
             console.log(Url)
             $.ajax({
                 url: Url,
@@ -221,7 +217,7 @@
                 }
             })
         }
-        getMovie("");
+        getMovie("All");
         function renderMovie() {
             let result = "";
             if (number > listMovieBycategory.length) {
@@ -285,6 +281,8 @@
             number += 4;
             renderMovie();
         })
-        
+        $(document).ready(function ($) {
+            $.ajaxSetup({ cache: false });
+        });
     </script>
     }

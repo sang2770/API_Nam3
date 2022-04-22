@@ -234,32 +234,35 @@
                 console.log(err);
             }
         })
-        if (/\d/.test(id)) {
-            $.ajax({
-                url: 'https://localhost:7053/api/Movies/' + id,
-                method: "GET",
-                async: false,
-                headers: Header,
-                contentType: "json",
-                dataType: "json",
-                success: function (data) {
-                    console.log("Success");
-                    $("#NameMovie").val(data.tenphim);
-                    $("#Mota").val(data.motaphim);
-                    $("#Nam").val(data.nam);
-                    $("#Time").val(data.thoiluong);
-                    $("#NgonNgu").val(data.ngonngu);
-                    $("#Link").val(data.duongdan);
-                    $("#danhgia").val(data.danhgiaphim);
-                    $("#form__img").attr('src', data.anh);
-                    linkanh = data.anh;
-                    
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            })
+        function getData() {
+            if (/\d/.test(id)) {
+                $.ajax({
+                    url: 'https://localhost:7053/api/Movies/' + id,
+                    method: "GET",
+                    async: false,
+                    headers: Header,
+                    contentType: "json",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log("Success");
+                        $("#NameMovie").val(data.tenphim);
+                        $("#Mota").val(data.motaphim);
+                        $("#Nam").val(data.nam);
+                        $("#Time").val(data.thoiluong);
+                        $("#NgonNgu").val(data.ngonngu);
+                        $("#Link").val(data.duongdan);
+                        $("#danhgia").val(data.danhgiaphim);
+                        $("#form__img").attr('src', data.anh);
+                        linkanh = data.anh;
+
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            }
         }
+        getData();
         $("#UpdateMovies").submit(function (e) {
             
             e.preventDefault();
@@ -279,7 +282,6 @@
                     success: function (data) {
                         alert("Thành công");
                         Update_category_country();
-                        e.target.reset();
                     },
                     error: function (err) {
                         alert("Thất bại");
@@ -304,7 +306,6 @@
                     success: function (data) {
                         alert("Thành công");
                         Update_category_country();
-                        e.target.reset();
                     },
                     error: function (err) {
                         alert("Thất bại");
@@ -340,10 +341,10 @@
 
                             dataType: 'json',
                             error: function (response) {
-                                alert("Thêm mới không thành công");
+                                //alert("Thêm mới không thành công");
                             },
                             success: function (reponse) {
-                                alert("Thêm mới thành công");
+                                //alert("Thêm mới thành công");
 
                             }
                         });

@@ -30,6 +30,10 @@
     <script>
         const url = "https://localhost:7053/api";
         let number = 4;
+        const Header = {
+            "Authorization": "Bearer " + localStorage.getItem("token"),
+            "Content-Type": "application/json"
+        }
         let listMovieByName = [];
         function GetDetails(id) {
             window.location = "/Home/Details/" + id;
@@ -38,9 +42,7 @@
             number = 4;
             $.ajax({
                 url: url + `/Movies/NameMovie/@ViewBag.name`,
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: Header,
                 method: "GET",
                 success: function (data) {
 
@@ -52,6 +54,10 @@
                 error: function (err) {
                     $("#ListMovieByName").html(`<div>Không tìm thấy kết quả</div>`);
                     $('.Btn').hide();
+                    if (err.status == 401) {
+                        alert("Bạn cần đăng nhập lại");
+                        window.location = "/Home/Login";
+                    }
                 }
             })
         }
