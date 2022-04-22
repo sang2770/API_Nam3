@@ -101,6 +101,7 @@
 @section scripts{
     <script>
         function initModals() {
+            console.log("init")
             $('.open-modal').magnificPopup({
                 fixedContentPos: true,
                 fixedBgPos: true,
@@ -208,8 +209,6 @@
                     })
                     $("#ListUser").html(result);
                     initModals();
-                    
-
                 },
                 error: function (err) {
                     console.log(err);
@@ -252,26 +251,26 @@
             getUser();
         }))
         // Xác nhận xóa
-                    $('#YesDelete').click(function (e) {
-                        console.log("Delete");
-                        e.preventDefault();
-                        $.ajax({
-                            url: url + `/${idDelete}?UserName=${userName}`,
-                            headers: Header,
-                            method: "DELETE",
-                            success: function (data) {
-                                getUser();
-                                alert("Bạn đã xóa thành công")
-                            },
-                            error: function (err) {
-                                alert("Thất bại");
-                                console.log(err);
-                                if (err.status == 401 || err.status == 403) {
-                                    window.location = "/Admin/Home/Login";
-                                }
-                            }
-                        })
-                    })
+        $('#YesDelete').click(function (e) {
+            console.log("Delete");
+            e.preventDefault();
+            $.ajax({
+                url: url + `/${idDelete}?UserName=${userName}`,
+                headers: Header,
+                method: "DELETE",
+                success: function (data) {
+                    alert("Bạn đã xóa thành công")
+                    getUser();
+                },
+                error: function (err) {
+                    alert("Thất bại");
+                    console.log(err);
+                    if (err.status == 401 || err.status == 403) {
+                        window.location = "/Admin/Home/Login";
+                    }
+                }
+            })
+        })
     </script>
 }
 
