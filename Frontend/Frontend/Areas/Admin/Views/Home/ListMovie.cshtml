@@ -114,6 +114,7 @@
 @section scripts{
     <script>
         function initModals() {
+            console.log("init")
             $('.open-modal').magnificPopup({
                 fixedContentPos: true,
                 fixedBgPos: true,
@@ -131,10 +132,14 @@
                 $.magnificPopup.close();
             });
 
+            $('.modal__btn--apply').on('click', function (e) {
+                e.preventDefault();
+                $.magnificPopup.close();
+
+            });
         }
 
 
-        initModals();
         var str1 = "";
         let pagination = {
             totalCount: 7,

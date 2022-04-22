@@ -62,6 +62,7 @@
         $.ajax({
             url: url + "/Movies/GetMovieByRate",
             headers: Header,
+            async: false,
             method: "GET",
             success: function (data) {
                 let result = "";
@@ -170,6 +171,7 @@
             url: url + "/Category/All",
             headers: Header,
             method: "GET",
+            async: false,
             success: function (data) {
                 let result = "<option value='All Movie'>All Movie</option>";
                 data.forEach((item, index) => {
@@ -198,6 +200,7 @@
                 url: Url,
                 headers: Header,
                 method: "GET",
+                async: false,
                 success: function (data) {
                     listMovieBycategory = [];
                     data.forEach((item, index) => {
