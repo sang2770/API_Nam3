@@ -114,6 +114,7 @@
                 url: url + "/Movies/" + id,
                 headers: Header,
                 method: "GET",
+                async: false,
                 success: function (data) {
                     let idvideo = data.duongdan.split("=");
                     idvideo = idvideo[idvideo.length - 1]
@@ -199,6 +200,8 @@
                 url: url + "/CommentByMovie/" + id + `?pageNumber=${pagination.currentPage}&pageSize=${pagination.pageSize}`,
                 headers: Header,
                 method: "GET",
+                async: false,
+
                 success: function (data) {
                     pagination = data;
                     $('#currentPage').html(pagination.currentPage);
