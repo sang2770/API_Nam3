@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BTL_APIMOVIE.Models;
+using Microsoft.AspNetCore.Authorization;
+using BTL_APIMOVIE.Auth;
 
 namespace BTL_APIMOVIE.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
@@ -89,7 +92,7 @@ namespace BTL_APIMOVIE.Controllers
             return Ok(query);
         }
 
-
+        [Authorize(Roles = Role.Admin)]
         // PUT: api/Category/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -123,6 +126,7 @@ namespace BTL_APIMOVIE.Controllers
 
         // POST: api/Category
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = Role.Admin)]
         [HttpPost]
         public async Task<ActionResult<TbLoaiphim>> PostTbLoaiphim(TbLoaiphim tbLoaiphim)
         {
@@ -131,7 +135,7 @@ namespace BTL_APIMOVIE.Controllers
 
             return CreatedAtAction("GetTbLoaiphim", new { id = tbLoaiphim.Maloaiphim }, tbLoaiphim);
         }
-
+        [Authorize(Roles = Role.Admin)]
         // DELETE: api/Category/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTbLoaiphim(int id)

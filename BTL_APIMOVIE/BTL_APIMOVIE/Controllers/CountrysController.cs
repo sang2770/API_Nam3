@@ -7,11 +7,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BTL_APIMOVIE.Models;
+using Microsoft.AspNetCore.Authorization;
+using BTL_APIMOVIE.Auth;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BTL_APIMOVIE.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CountrysController : ControllerBase
@@ -91,7 +94,7 @@ namespace BTL_APIMOVIE.Controllers
 
             return tbQuocgia;
         }
-
+        [Authorize(Roles = Role.Admin)]
         // PUT: api/Category/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -122,7 +125,7 @@ namespace BTL_APIMOVIE.Controllers
 
             return NoContent();
         }
-
+        [Authorize(Roles = Role.Admin)]
         // POST: api/Category
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -133,7 +136,7 @@ namespace BTL_APIMOVIE.Controllers
 
             return CreatedAtAction("GetTbQuocGia", new { id = tbQuocgia.Maquocgia }, tbQuocgia);
         }
-
+        [Authorize(Roles = Role.Admin)]
         // DELETE: api/Category/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGetTbQuocGia(int id)

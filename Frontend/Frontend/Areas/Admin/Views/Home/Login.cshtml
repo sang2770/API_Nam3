@@ -86,12 +86,17 @@
 
                 data: JSON.stringify(object),
                 success: function (data) {
-                    localStorage.setItem("tokenAdmin", data.token);
-                    localStorage.setItem("NameAdmin", data.user.tendangnhap);
-                    localStorage.setItem("MaTKAdmin", data.user.mataikhoan);
-                    $("#HelpText").html("");
-                    //e.target.reset();
-                    window.location = "/Admin/Home/Index";
+                    if (data.user.loaitaikhoan === "User") {
+                        $("#HelpText").html("Bạn không có quyền truy cập!");
+                    } else {
+                        localStorage.setItem("tokenAdmin", data.token);
+                        localStorage.setItem("NameAdmin", data.user.tendangnhap);
+                        localStorage.setItem("MaTKAdmin", data.user.mataikhoan);
+                        $("#HelpText").html("");
+                        //e.target.reset();
+                        window.location = "/Admin/Home/Index";
+                    }
+                    
                 },
                 error: function (err) {
                     $("#HelpText").html("Tài khoản hoặc mật khẩu không đúng");

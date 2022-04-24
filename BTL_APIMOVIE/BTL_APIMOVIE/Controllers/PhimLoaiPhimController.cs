@@ -7,10 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BTL_APIMOVIE.Models;
+using Microsoft.AspNetCore.Authorization;
+using BTL_APIMOVIE.Auth;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BTL_APIMOVIE.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PhimLoaiPhimController : ControllerBase
@@ -41,8 +44,8 @@ namespace BTL_APIMOVIE.Controllers
             return tbPhimLoaiPhims;
         }
 
-      
 
+        [Authorize(Roles = Role.Admin)]
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<TbPhimLoaiPhim>> PostTbPhimLoaiPhims(int Ma,int Maphim,int Maloaiphim)
@@ -53,6 +56,7 @@ namespace BTL_APIMOVIE.Controllers
 
             return CreatedAtAction("GetTbPhimLoaiPhims", new { id = tbPhimLoaiPhim.Ma }, tbPhimLoaiPhim);
         }
+        [Authorize(Roles = Role.Admin)]
 
         // DELETE: api/Category/5
         [HttpDelete("{maphim}/{maloai}")]
