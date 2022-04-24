@@ -63,7 +63,6 @@
             $.ajax({
                 url: 'https://localhost:7053/api/Countrys',
                 method: 'POST',
-                Header: Header,
                 contentType: 'application/json',
                 data: JSON.stringify(formdata),
                 dataType: 'json',
@@ -75,7 +74,7 @@
                 },
                 success: function (reponse) {
                     alert("Thêm mới thành công");
-                    loaddata(); //Gọi đến hàm lấy dữ liệu lên bảng
+                   
                 }
             });
         }
