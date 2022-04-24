@@ -239,8 +239,9 @@
                 headers: Header,
                 method: "DELETE",
                 success: function (data) {
+                    
+                    alert("Bạn đã xóa thành công");
                     getCountry();
-                    alert("Bạn đã xóa thành công")
                 },
                 error: function (err) {
                     alert("Thất bại");
