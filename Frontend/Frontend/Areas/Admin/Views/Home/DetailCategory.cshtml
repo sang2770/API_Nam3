@@ -54,6 +54,10 @@
         let id = location.href.split("/");
         id = id[id.length - 1];
 
+        const Header = {
+            "Authorization": "Bearer " + localStorage.getItem("tokenAdmin"),
+            "Content-Type": "application/json"
+        }
 
         $('document').ready(function () {
 
@@ -61,6 +65,7 @@
                 $.ajax({
                     url: 'https://localhost:7053/api/Category/' + id,
                     method: "GET",
+                    headers: Header,
                     contentType: "json",
                     dataType: "json",
                     success: function (data) {
@@ -93,6 +98,7 @@
             $.ajax({
                 url: 'https://localhost:7053/api/Category/' + $("#txtMTL").val(),
                 method: 'PUT',
+                headers: Header,
                 contentType: 'application/json',
                 data: JSON.stringify(formdata),
                 dataType: 'json',
@@ -104,7 +110,7 @@
                 },
                 success: function (country) {
                     alert("Sửa thành công");
-                    loaddata(); //Gọi đến hàm lấy dữ liệu lên bảng
+                    
                 }
             });
         }
