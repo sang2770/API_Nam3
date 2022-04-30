@@ -46,7 +46,7 @@ namespace BTL_APIMOVIE.Controllers
             int CurrentPage = pageNumber>0?pageNumber:1;
 
             // Parameter is passed from Query string if it is null then it default Value will be pageSize:20  
-            int PageSize = pageSize>0?pageSize:1;
+            int PageSize = pageSize>0?pageSize:5;
 
             // tất cả bản ghi 
             int TotalCount = query.Count(); ;

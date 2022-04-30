@@ -216,7 +216,10 @@
         }
         $("#BtnLogout").click(function (e) {
             e.preventDefault()
-            localStorage.clear();
+            localStorage.removeItem("token");
+            localStorage.removeItem("time");
+            localStorage.removeItem("Name");
+            localStorage.removeItem("MaTK");
             window.location = "/Home/Login";
         })
     </script>

@@ -46,11 +46,14 @@
                 method: "GET",
                 async: false,
                 success: function (data) {
+                    if (data.length == 0) { $("#ListMovieByName").html(`<div>Không tìm thấy kết quả</div>`); }
+                    else {
+                        data.forEach((item, index) => {
+                            listMovieByName.push(item);
+                        })
+                        renderMovie();
+                    }
 
-                    data.forEach((item, index) => {
-                        listMovieByName.push(item);
-                    })
-                    renderMovie();
                 },
                 error: function (err) {
                     $("#ListMovieByName").html(`<div>Không tìm thấy kết quả</div>`);
